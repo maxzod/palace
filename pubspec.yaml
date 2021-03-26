@@ -1,0 +1,11 @@
+name: palace
+version: 0.0.0-alpha.0
+description: Dart Server Side framework
+homepage: https://github.com/maxzod/
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+# dependencies:
+
+dev_dependencies:
+  pedantic: ^1.9.0
