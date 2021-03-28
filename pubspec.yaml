@@ -5,7 +5,8 @@ homepage: https://github.com/maxzod/
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-# dependencies:
-
 dev_dependencies:
-  pedantic: ^1.9.0
+  lint: ^1.5.3
+dependencies:
+  meta: ^1.3.0
+  path_to_regexp: ^0.4.0
