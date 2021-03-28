@@ -5,8 +5,11 @@ import 'router.dart';
 Future<void> main(List<String> args) async {
   final router = PalaceRouter();
   router.use(LoggerGuard());
-  router.get('/api', (req) async {
-    return 'الواد ده مين ده';
+  router.get('/users', (req) async {
+    return {
+      "1": {"name": "ahmed"},
+      "2": {"name": "ahmed"},
+    };
   });
   router.get('/internal/error', (req) async {
     int? x;
