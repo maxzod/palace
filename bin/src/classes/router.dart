@@ -1,22 +1,22 @@
 import 'package:meta/meta.dart';
 
-import 'classes/endpoint.dart';
-import 'classes/guard.dart';
-import 'type_def.dart';
+import 'endpoint.dart';
+import 'guard.dart';
 
 @immutable
 class PalaceRouter {
   final List<EndPoint> _endpoints = [];
   final List<PalaceGuard> _globalGuards = [];
 
-  void use(PalaceGuard guard) {
-    _globalGuards.add(guard);
-  }
+  void use(PalaceGuard guard) => _globalGuards.add(guard);
 
-  EndPoint match(String method, String path) {
-    return _endpoints.firstWhere((e) => e.match(method, path), orElse: () {
-      throw 'not found 404';
-    });
+  EndPoint? match(String method, String path) {
+    try {
+      return _endpoints.firstWhere((e) => e.match(method, path));
+    } catch (e) {
+      if (e is StateError) return null;
+      rethrow;
+    }
   }
 
   List<PalaceGuard> get guards => _globalGuards;
@@ -26,6 +26,7 @@ class PalaceRouter {
     Handler handler, {
     List<PalaceGuard> guards = const [],
   }) {
+    // TODO :: throw error if endpoint is already reserved
     _endpoints.add(EndPoint(
       path: path,
       method: 'GET',

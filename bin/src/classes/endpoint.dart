@@ -1,8 +1,10 @@
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-// import '../http_methods.dart';
-import '../type_def.dart';
 import 'guard.dart';
+import 'req.dart';
+import 'res.dart';
+
+typedef Handler = Future<void> Function(Request req, Response res);
 
 /// every `request` must have a `endpoint` ready to handle it
 /// else the `palace` will respond with `404`

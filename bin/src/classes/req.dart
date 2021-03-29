@@ -1,7 +1,9 @@
 import 'dart:io' as io;
 
+///* contains simplified logic to extract data from the io req class
 class Request {
   final io.HttpRequest _request;
+
   late final Map<String, dynamic> _queryParams;
 
   Request(this._request) {
