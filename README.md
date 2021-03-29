@@ -10,14 +10,44 @@
 
 # take look at bin/main
 
-- to run use dart bin/main.dart
-- use `lighthouse` for run && watch for changes
+- to run use dart `bin/main.dart`
+- use `lighthouse` for `run` && `watch` for changes
   `lh bin/main.dart`
-- there is a lot to do you are welcome to help building your palace
+- there is a lot to do you are welcome to help building your `palace`
 
-# Usage example
+# example
 
-look at => bin/main.dart for example
+if you want to test your self clone and run `bin/main.dart`
+
+```dart
+Future<void> main(List<String> args) async {
+  /// create a router
+  final palace = PalaceRouter();
+
+  /// you can add as many guards as you can to run before and after [after is not yet implemented]
+  /// build you own guard
+  /// or use one of `built-in` guards
+  palace.use(LoggerGuard());
+
+  /// set your routes
+  palace.get('/greet_the_queen', (req, res) async {
+    return res.json(
+      {
+        'data': 'Long Live The Queen',
+      },
+
+      /// optionally you can set your `statusCode`
+      /// by defaults we will attach the appropriate status code depend on the req.method
+      /// `GET` => (`ok`)200  , `POST` => 201(`created`)
+
+      statusCode: HttpStatus.ok,
+    );
+  });
+
+  /// start the `server`
+  await openGates(palace);
+}
+```
 
 ## Core Parts
 
