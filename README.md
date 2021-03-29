@@ -21,27 +21,13 @@ if you want to test your self clone and run `bin/main.dart`
 
 ```dart
 Future<void> main(List<String> args) async {
-  /// create a router
+
   final palace = PalaceRouter();
 
-  /// you can add as many guards as you can to run before and after [after is not yet implemented]
-  /// build you own guard
-  /// or use one of `built-in` guards
   palace.use(LoggerGuard());
 
-  /// set your routes
   palace.get('/greet_the_queen', (req, res) async {
-    return res.json(
-      {
-        'data': 'Long Live The Queen',
-      },
-
-      /// optionally you can set your `statusCode`
-      /// by defaults we will attach the appropriate status code depend on the req.method
-      /// `GET` => (`ok`)200  , `POST` => 201(`created`)
-
-      statusCode: HttpStatus.ok,
-    );
+    return res.json({'data': 'Long Live The Queen'});
   });
 
   /// start the `server`
@@ -72,10 +58,10 @@ abstract class with one function to execute before giving the http request for t
 
 to help you set routes and the handler for each route
 
-## palace
+## `palace`
 
 the palace file contains only one function `openGates(PalaceRouter,{port})` which takes palace router and will start server
 wait for incoming requests
 transforming them to Request object
-find the right endpoint if not found will respond with 401
+find the right endpoint if not found will respond with 404
 if exist will loop throw the guards and the endpoint handler then close the IO request
