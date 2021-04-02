@@ -65,3 +65,10 @@ wait for incoming requests
 transforming them to Request object
 find the right endpoint if not found will respond with 404
 if exist will loop throw the guards and the endpoint handler then close the IO request
+
+## TODO
+
+- [x] configuration reader
+      example
+      `final port = config('port');`
+- []

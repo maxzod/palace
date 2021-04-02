@@ -1,0 +1,4 @@
+# true  when running on production mode
+# * true will => disable Logging
+production: false
+port: 3030
