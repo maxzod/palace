@@ -1,41 +1,90 @@
 import 'dart:io' as io;
 
+import 'package:http_server/http_server.dart';
+import 'package:path_to_regexp/path_to_regexp.dart';
+
+import '../router/endpoint.dart';
+
 ///* contains simplified logic to extract data from the io req class
 class Request {
-  final io.HttpRequest _request;
+  final io.HttpRequest request;
 
-  late final Map<String, dynamic> _queryParams;
+  static Future<Request> init(io.HttpRequest request, EndPoint endPoint) async {
+    /// *set up request body
+    final _body = await HttpBodyHandler.processRequest(request);
 
-  Request(this._request) {
-    _queryParams = _request.requestedUri.queryParameters;
+    ///* set up request path params
+    final _pathParams = <String>[];
+    final _pathRegx = pathToRegExp(endPoint.path, parameters: _pathParams);
+    final match = _pathRegx.matchAsPrefix(request.uri.path);
+    var _routerParams = <String, String>{};
+    if (match != null) _routerParams = extract(_pathParams, match);
+
+    ///* set up request query params
+    print(request.uri.queryParametersAll);
+    return Request._(
+      request: request,
+      bodyType: _body.type,
+      body: _body.body,
+      params: _routerParams,
+      queryParams: request.uri.queryParameters,
+    );
   }
 
-  Map<String, dynamic> get params => _queryParams;
+  Request._({
+    required this.request,
+    required this.body,
+    required this.bodyType,
+    required this.params,
+    required this.queryParams,
+  });
 
-  io.HttpRequest get request => _request;
+  dynamic body;
+  String bodyType;
 
-  io.X509Certificate? get certificate => _request.certificate;
+// ********************************
+  /// ? getter part
+  late Map<String, dynamic> params;
+  late Map<String, dynamic> queryParams;
 
-  io.HttpConnectionInfo? get connectionInfo => _request.connectionInfo;
+  io.HttpRequest get ioRequest => request;
 
-  List<io.Cookie> get cookies => request.cookies;
+  List<io.Cookie> get cookies => ioRequest.cookies;
 
-  io.HttpHeaders get headers => request.headers;
+  io.HttpHeaders get headers => ioRequest.headers;
 
-  Uri get requestedUri => request.requestedUri;
+  Uri get uri => ioRequest.uri;
 
-  io.HttpResponse get response => request.response;
-
-  io.HttpSession get session => request.session;
-  // TODO :: Extract it directly here with getter for ease of access
-  Uri get uri => request.uri;
-
-  String get method => _request.method;
-
+  String get method => request.method;
   @override
   String toString() {
-    /// dart io will use it to convert the exception to data and give to the client
-    /// TODO :: base on content-type you might need to convert to JSON first
-    return '${super.toString()} ';
+    return '''
+    At : ${DateTime.now().toIso8601String()} the palace had a visitor {
+    method: $method
+    cookies: $cookies
+    params: $params
+    path : ${uri.path}
+    
+    }
+    ''';
   }
 }
+/*
+body : ${ioRequest.uri.data?.parameters}
+    body : ${ioRequest.requestedUri.data?.parameters}
+    body : ${ioRequest.requestedUri.queryParametersAll}
+    body : ${ioRequest.certificate}
+    body : ${ioRequest.connectionInfo}
+    body : ${ioRequest.contentLength}
+    body : ${ioRequest.cookies}
+    body : ${ioRequest.headers}
+    body : ${ioRequest.persistentConnection}
+    body : ${ioRequest.protocolVersion}
+    body : ${ioRequest.requestedUri}
+    body : ${ioRequest.session}
+    body : ${ioRequest.uri}
+    body : ${ioRequest.first}
+    body : ${ioRequest.isBroadcast}
+    body : ${ioRequest.last}
+    
+     */

@@ -1,16 +1,14 @@
 import '../../utils/config_reader.dart';
 import '../http/request.dart';
-import '../http/response.dart';
+import '../http/response/response.dart';
 
-void loggerGuard(Request req, Response res) {
+Future<void> loggerGuard(Request req, Response res) async {
   final enableLog = !config<bool>('production');
+
   if (enableLog) {
-    print('''
-    At : ${DateTime.now().toIso8601String()} the palace had a visitor {
-    method: ${req.method}
-    path : ${req.uri.path}
-    ip : ${req.connectionInfo!.remoteAddress}
-    }
-    ''');
+    print(req.request.uri.path);
+    await res.file('somepath/somefile.someext');
+    await res.json({'data': req.queryParams});
   }
 }
+// ip : ${req.connectionInfo!.remoteAddress}

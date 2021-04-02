@@ -107,7 +107,7 @@ class Response {
     _response.statusCode = io.HttpStatus.notFound;
 
     /// append the data to the response
-    write(toJson(
+    await write(toJson(
       data ??
           {
             'status_code': io.HttpStatus.notFound,
@@ -137,6 +137,6 @@ class Response {
         'message': data ?? 'Internal Server Error',
       },
     ));
-    _response.close();
+    await _response.close();
   }
 }
