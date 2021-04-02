@@ -8,7 +8,11 @@ import 'package:meta/meta.dart';
 
 extension on Response {
   String toJson(Object data) {
-    return data is String ? data : jsonEncode(data);
+    try {
+      return data is String ? data : jsonEncode(data);
+    } catch (e) {
+      return data.toString();
+    }
   }
 
   int get defStatusCode {
@@ -72,10 +76,24 @@ class Response {
     await write(toJson(data));
   }
 
+  // Future<void> file(
+  //   Object data, {
+  //   int? statusCode,
+  // }) async {
+  //   /// set the Response contentType to Json
+  //   _response.headers.contentType = io.ContentType.binary;
+  //   // set the default status code
+  //   _response.statusCode = statusCode ?? defStatusCode;
+
+  //   /// append the data to the response
+  //   await write();
+  // }
+
   @protected
   Future<void> write(Object data) async {
     _isClosed = true;
     _response.write(data);
+    await _response.close();
   }
 
   // will send the data converted to json
@@ -89,7 +107,7 @@ class Response {
     _response.statusCode = io.HttpStatus.notFound;
 
     /// append the data to the response
-    _response.write(toJson(
+    write(toJson(
       data ??
           {
             'status_code': io.HttpStatus.notFound,
@@ -107,17 +125,18 @@ class Response {
     /// set the Response contentType to Json
     _response.headers.contentType = io.ContentType.json;
 
-    _response.statusCode = io.HttpStatus.notFound;
+    _response.statusCode = io.HttpStatus.internalServerError;
 
     /// append the data to the response
     _response.write(toJson(
       // TODO :: disable showing exceptions in production mode
       // data != null && isDebugMode ? data :
-      data ??
-          {
-            'status_code': io.HttpStatus.internalServerError,
-            'message': 'Internal Server Error',
-          },
+
+      {
+        'status_code': io.HttpStatus.internalServerError,
+        'message': data ?? 'Internal Server Error',
+      },
     ));
+    _response.close();
   }
 }

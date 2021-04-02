@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-import 'guard.dart';
-import 'req.dart';
-import 'res.dart';
+import '../http/request.dart';
+import '../http/response.dart';
 
-typedef Handler = Future<void> Function(Request req, Response res);
+typedef Handler = FutureOr<void> Function(Request req, Response res);
 
 /// every `request` must have a `endpoint` ready to handle it
 /// else the `palace` will respond with `404`
@@ -14,7 +15,7 @@ class EndPoint {
   final String path;
   final String method;
   final Handler handler;
-  final List<PalaceGuard> guards;
+  final List<Handler> guards;
 
   const EndPoint({
     required this.path,
