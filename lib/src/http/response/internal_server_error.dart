@@ -20,7 +20,8 @@ extension ResponseWithInternalServerError on Response {
           'status_code': io.HttpStatus.internalServerError,
           'message': 'Internal Server Error',
           if (data != null) 'data': data,
-          if (exception != null && !isInProduction) 'exception': exception
+          if (exception != null) 'exception': exception
+          // if (exception != null && !isInProduction) 'exception': exception
         },
       ));
       // ignore: empty_catches

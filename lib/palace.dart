@@ -1,7 +1,7 @@
 library palace;
 
 /// ? Guards aka middleware s
-export 'package:palace/src/guards/logger.dart';
+export 'package:palace/src/guards/logs_guard.dart';
 
 /// ? http
 export 'package:palace/src/http/request.dart';

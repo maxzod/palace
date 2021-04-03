@@ -1,3 +1,3 @@
-## 0.0.0
+## 0.0.2
 
-- Initial version, created by Some knight
+- Initial version, created by Some knights

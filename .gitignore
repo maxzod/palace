@@ -8,6 +8,3 @@ build/
 # Directory created by dartdoc
 doc/api/
 # TODO :: ignore the `.yaml` file
-.yaml
-*.mp3
-*.mp4
