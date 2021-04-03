@@ -25,11 +25,7 @@ extension ResponseWithInternalServerError on Response {
           if (exception != null && !isInProduction) 'exception': exception
         },
       ));
-      await response.close();
-    } catch (e) {
-      // TODO :: if there is no catch bloc will it work as empty one ? remove the empty catch bloc : remove this todo
-    } finally {
-      await response.close();
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 }
