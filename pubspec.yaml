@@ -7,20 +7,12 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  # annotations
+  http_server: ^1.0.0
   meta: ^1.3.0
-  # to validate request variables
-  # palace_validators:
-  # git:
-  # url: https://github.com/maxzod/palace_validators.git
-
-  # to validate route matching
+  mime_type: ^1.0.0
   path_to_regexp: ^0.4.0
   yaml: ^3.1.0
-  # classes to ease access to http-server utils
-  http_server: ^1.0.0
-  mime_type: ^1.0.0
+  path: ^1.8.0
 
 dev_dependencies:
-  # linting
   pedantic: 1.11.0
