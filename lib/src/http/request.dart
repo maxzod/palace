@@ -21,7 +21,6 @@ class Request {
     if (match != null) _routerParams = extract(_pathParams, match);
 
     ///* set up request query params
-    print(request.uri.queryParametersAll);
     return Request._(
       request: request,
       bodyType: _body.type,

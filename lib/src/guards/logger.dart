@@ -6,7 +6,6 @@ Future<void> loggerGuard(Request req, Response res) async {
   final enableLog = !config<bool>('production');
 
   if (enableLog) {
-    print(req.request.uri.path);
     await res.json({'data': req.queryParams});
   }
 }
