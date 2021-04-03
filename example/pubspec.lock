@@ -16,14 +16,14 @@ packages:
     source: hosted
     version: "1.15.0"
   http_server:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http_server
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
   meta:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
@@ -37,12 +37,19 @@ packages:
     source: hosted
     version: "1.0.0"
   mime_type:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: mime_type
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  palace:
+    dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.0.0-alpha.1"
   path:
     dependency: transitive
     description:
@@ -51,7 +58,7 @@ packages:
     source: hosted
     version: "1.8.0"
   path_to_regexp:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_to_regexp
       url: "https://pub.dartlang.org"
@@ -86,7 +93,7 @@ packages:
     source: hosted
     version: "1.2.0"
   yaml:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: yaml
       url: "https://pub.dartlang.org"

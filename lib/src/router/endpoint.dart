@@ -26,6 +26,12 @@ class EndPoint {
 
   bool match(String method, String path) {
     final regExp = pathToRegExp(this.path);
-    return this.method == method && regExp.hasMatch(path);
+    final methodMatch = method.toUpperCase() == 'ALL' ? true : this.method.toUpperCase() == method.toUpperCase();
+    return methodMatch && regExp.hasMatch(path);
+  }
+
+  @override
+  String toString() {
+    return 'method: $method ,path: $path ,guardsCount${guards.length}';
   }
 }

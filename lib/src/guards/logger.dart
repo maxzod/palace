@@ -7,7 +7,6 @@ Future<void> loggerGuard(Request req, Response res) async {
 
   if (enableLog) {
     print(req.request.uri.path);
-    await res.file('somepath/somefile.someext');
     await res.json({'data': req.queryParams});
   }
 }

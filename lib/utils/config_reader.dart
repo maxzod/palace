@@ -13,3 +13,7 @@ T config<T>(String key) {
   if (_data == null) _init();
   return _yaml[key] as T;
 }
+
+bool get isInProduction {
+  return config<bool>('production');
+}

@@ -19,6 +19,7 @@ dependencies:
   yaml: ^3.1.0
   # classes to ease access to http-server utils
   http_server: ^1.0.0
+  mime_type: ^1.0.0
 
 dev_dependencies:
   # linting

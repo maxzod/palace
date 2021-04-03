@@ -13,20 +13,17 @@ Future<void> openGates(
   /// open the server
   final server = await io.HttpServer.bind(io.InternetAddress.loopbackIPv4, port);
 
-  /// print url
+  /// print the server url
   print('Listening on http://localhost:${server.port}');
 
   /// * wait for incoming requests
   await for (final ioReq in server) {
     try {
-      // int? x;
-      // print(x!);
-
       /// * look for desired endpoint
       final endpoint = palaceRouter.match(ioReq.method, ioReq.uri.path) ??
           EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: palaceRouter.notFoundHandler);
 
-      /// * create Place req form dart io req;
+      /// * create Place req form dart io req and the desired endpoint;
       final req = await Request.init(ioReq, endpoint);
       final res = Response(ioReq);
 
@@ -34,6 +31,8 @@ Future<void> openGates(
       final handlers = <Handler>[
         /// * global handlers
         ...palaceRouter.guards,
+
+        ///* endpoint guards
         ...endpoint.guards,
 
         /// * route handler
@@ -45,8 +44,7 @@ Future<void> openGates(
         if (res.isClosed) break;
       }
     } catch (e) {
-      /// error
-      await Response(ioReq).internalServerError(data: e);
+      await Response(ioReq).internalServerError(exception: e);
     }
   }
 }
