@@ -7,16 +7,14 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  # annotations
+  http_server: ^1.0.0
   meta: ^1.3.0
   # to validate route matching
   path_to_regexp: ^0.4.0
   yaml: ^3.1.0
   # classes to ease access to http-server utils
-  http_server: ^1.0.0
   mime_type: ^1.0.0
   palace_validators: ^0.0.2
 
 dev_dependencies:
-  # linting
   pedantic: 1.11.0

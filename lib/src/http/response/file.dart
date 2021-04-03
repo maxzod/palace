@@ -5,12 +5,19 @@ import 'package:palace/palace.dart';
 import 'package:mime_type/mime_type.dart';
 
 extension ResponseWithFile on Response {
-  Future<void> file(String name, String path) async {
-    final _name = Uri.parse(name).toString();
-    request.response.headers.add('Content-Disposition', 'attachment;filename=$_name');
-    ;
+  Future<void> file(String path, {String? name}) async {
+    final file = File(Directory.current.path + '/private' + path);
 
-    final file = File(Directory.current.path + '/files' + path);
+    late String _name;
+    if (name != null) {
+      _name = Uri.parse(name).toString();
+    } else {
+      var fileName = (file.path.split('/').last);
+      _name = file.path.replaceAll('/$fileName', '');
+    }
+
+    request.response.headers
+        .add('Content-Disposition', 'attachment;filename=$_name');
     final exists = await file.exists();
     if (!exists) {
       await notFound();
@@ -22,7 +29,8 @@ extension ResponseWithFile on Response {
 
 extension SS on HttpResponse {
   void setContentTypeFromFile(File file) {
-    if (headers.contentType == null || headers.contentType!.mimeType == 'text/plain') {
+    if (headers.contentType == null ||
+        headers.contentType!.mimeType == 'text/plain') {
       headers.contentType = file.contentType;
     } else {
       headers.contentType == ContentType.binary;

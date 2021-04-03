@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:io' as io;
 
 import 'package:palace/palace.dart';
+import 'package:palace/utils/logger.dart';
 
 Future<void> openGates(
   PalaceRouter palaceRouter, {
   int port = 3000,
 }) async {
   /// open the server
-  final server = await io.HttpServer.bind(io.InternetAddress.loopbackIPv4, port);
+  final server =
+      await io.HttpServer.bind(io.InternetAddress.loopbackIPv4, port);
 
   /// print the server url
   print('Listening on http://localhost:${server.port}');
@@ -18,7 +20,10 @@ Future<void> openGates(
     try {
       /// * look for desired endpoint
       final endpoint = palaceRouter.match(ioReq.method, ioReq.uri.path) ??
-          EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: palaceRouter.notFoundHandler);
+          EndPoint(
+              path: ioReq.uri.path,
+              method: ioReq.method,
+              handler: palaceRouter.notFoundHandler);
 
       /// * create Place req form dart io req and the desired endpoint;
       final req = await Request.init(ioReq, endpoint);
@@ -40,9 +45,10 @@ Future<void> openGates(
         await handler(req, res);
         if (res.isClosed) break;
       }
+      throw 'Something Critical Happened !';
     } catch (e) {
       if (allowLogs) {
-        // TODO :: log this exception
+        await PalaceLogger.e(e);
       }
       await Response(ioReq).internalServerError(exception: e);
     } finally {
