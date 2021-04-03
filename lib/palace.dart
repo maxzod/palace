@@ -12,8 +12,5 @@ export 'package:palace/src/http/response/index.dart';
 export 'package:palace/src/router/endpoint.dart';
 export 'package:palace/src/router/router.dart';
 
-/// ? request entry point
-export 'package:palace/src/gates.dart';
-
 /// ? utils
 export 'package:palace/utils/config_reader.dart';

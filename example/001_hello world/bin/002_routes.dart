@@ -1,7 +1,7 @@
 import 'package:palace/palace.dart';
 
 Future<void> main(List<String> arguments) async {
-  final router = PalaceRouter();
+  final router = Palace();
   router.get(
     '/api/home',
     (req, res) => res.json(
@@ -25,5 +25,5 @@ Future<void> main(List<String> arguments) async {
       return res.accepted(data: 'new product has been created successfully ! ');
     }
   });
-  await openGates(router);
+  await router.openGates();
 }

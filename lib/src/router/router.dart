@@ -1,18 +1,17 @@
-import 'package:meta/meta.dart';
-
 import 'package:palace/palace.dart';
+import 'dart:async';
+import 'dart:io';
 
-@immutable
-class PalaceRouter {
+import 'package:palace/utils/logger.dart';
+
+class Palace {
   final List<EndPoint> _endpoints = [];
   final List<Handler> _globalGuards = [];
-  late final Handler notFoundHandler;
-  PalaceRouter({
-    /// if none was provided req.notFound() will be used
-    Handler? notFoundHandler,
-  }) {
-    this.notFoundHandler = notFoundHandler ?? (req, res) => res.notFound();
-  }
+  Handler? _notFoundHandler;
+  set notFoundHandler(h) => _notFoundHandler = h;
+  Handler get notFoundHandler => _notFoundHandler ?? (req, res) => res.notFound();
+
+  HttpServer? _server;
 
   /// to add global handler for the entire app
   void use(Handler guard) => _globalGuards.add(guard);
@@ -99,7 +98,7 @@ class PalaceRouter {
         guards: guards,
       ));
 // * throw error if endpoint is already reserved twice
-  void bootstrap() {
+  void _bootstrap() {
     for (final e in _endpoints) {
       if (_endpoints.where((element) {
             if (e.method.toUpperCase() == 'ALL') {
@@ -113,4 +112,58 @@ class PalaceRouter {
       }
     }
   }
+
+  Future<void> openGates({
+    int port = 3000,
+  }) async {
+    // _bootstrap();
+
+    /// open the server
+    _server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
+
+    /// print the server url
+    print('Listening on http://localhost:${_server!.port}');
+    _server!.listen(_mainPipe);
+  }
+
+  Future<void> _mainPipe(HttpRequest ioReq) async {
+    /// * wait for incoming requests
+
+    try {
+      /// * look for desired endpoint
+      final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
+
+      /// * create Place req form dart io req and the desired endpoint;
+      final req = await Request.init(ioReq, endpoint);
+      final res = Response(ioReq);
+
+      /// build list of guards
+      final handlers = <Handler>[
+        /// * global handlers
+        ...guards,
+
+        ///* endpoint guards
+        ...endpoint.guards,
+
+        /// * route handler
+        endpoint.handler,
+      ];
+
+      for (final handler in handlers) {
+        await handler(req, res);
+        if (res.isClosed) break;
+      }
+      throw 'Something Critical Happened !';
+    } catch (e) {
+      // if (allowLogs) {
+      PalaceLogger.c(e);
+      // }
+      await Response(ioReq).internalServerError(exception: e);
+    } finally {
+      //  Close the req
+      await ioReq.response.close();
+    }
+  }
+
+  Future<void> closeGates() async => _server?.close(force: true);
 }

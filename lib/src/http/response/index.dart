@@ -1,5 +1,4 @@
 //* export response extensions
-export 'file.dart';
 export 'internal_server_error.dart';
 export 'json.dart';
 export 'view.dart';

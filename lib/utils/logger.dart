@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:path/path.dart';
 
+// TODO :: Logger throw exception
 class PalaceLogger {
   static DateTime get dt => DateTime.now();
   static Directory get logFolder => Directory(Directory.current.path + '\\logs\\');
@@ -23,5 +25,10 @@ class PalaceLogger {
 
   static Future<void> i(Object e) async {
     await (await logFile).writeAsString('\n INFO: [${dt.toIso8601String()}] $e', mode: FileMode.append);
+  }
+
+  /// log the error to the console only
+  static void c(Object e) {
+    log('\n CONSOLE LOG : [${dt.toIso8601String()}] $e');
   }
 }
