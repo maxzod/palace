@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io' as io;
 
+import 'package:palace/palace.dart';
+
 import 'http/request.dart';
 import 'http/response/response.dart';
 import 'router/endpoint.dart';
@@ -44,6 +46,9 @@ Future<void> openGates(
         if (res.isClosed) break;
       }
     } catch (e) {
+      if (allowLogs) {
+        // TODO :: log this exception
+      }
       await Response(ioReq).internalServerError(exception: e);
     }
   }

@@ -2,3 +2,4 @@
 # * true will => disable Logging
 production: false
 port: 3030
+allowLogs: true

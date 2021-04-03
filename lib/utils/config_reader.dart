@@ -17,3 +17,11 @@ T config<T>(String key) {
 bool get isInProduction {
   return config<bool>('production');
 }
+
+bool get allowLogs {
+  return config<bool>('allowLogs');
+}
+
+set allowLogs(l) {
+  _yaml['allowLogs'] = l;
+}

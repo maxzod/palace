@@ -1,4 +1,4 @@
-import 'dart:convert' show utf8;
+import 'dart:convert' show AsciiDecoder, AsciiEncoder, utf8;
 
 import 'dart:io';
 
@@ -7,27 +7,23 @@ import 'not_found.dart';
 import 'package:mime_type/mime_type.dart';
 
 extension ResponseWithFile on Response {
-  Future<void> file(String name, String path) async {
-    try {
-      // final _name = utf8.url(name);
+  Future<void> file(String path, {String? name}) async {
+    // final fileNameInUtfList = utf8.encode(name);
+    // final buffer = StringBuffer();
+    // fileNameInUtfList.forEach((element) => buffer.write(element));
+    // request.response.headers.add('Content-Disposition', 'attachment; filename="EURO rates.txt"; filename*=UTF-8\'\'${buffer.toString()}');
 
-      // response.headers.add('Content-Encoding', 'deflate, gzip');
-      request.headers.contentType = ContentType('text', 'html');
-      request.headers.add('Content-Disposition', 'attachment; filename=$name');
-      // response.headers.add('Content-Type', 'application/json; charset=utf-8');
-
-      final file = File(Directory.current.path + '/files' + path);
-      final exists = await file.exists();
-      print(file.path);
-      if (!exists) {
-        await notFound();
-      }
-      response.setContentTypeFromFile(file);
-      await response.addStream(file.openRead());
-      await response.close();
-    } catch (e) {
-      print(e);
+    request.response.headers.add('Content-Disposition', "attachment; filename='EURO rates.txt'; filename*=UTF-8''${name ?? ""}");
+    print('there');
+    final file = File(Directory.current.path + '/files' + path);
+    final exists = await file.exists();
+    print(file.path);
+    if (!exists) {
+      await notFound();
     }
+    response.setContentTypeFromFile(file);
+    await response.addStream(file.openRead());
+    await response.close();
   }
 }
 
