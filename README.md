@@ -1,37 +1,34 @@
-# **`Part of Queen Palace 🏰👑`**
+# **`Queen Palace 🏰👑`**
 
-🚧 Palace Is Under Construction 🚧 👷
+# Introduction
 
-🔑 Gates Will Open ASAP
+- inside the palace 🏰 you are a king 🤴 you have `Guards` and `Handlers` to serve your `Requests` 😉
+  micro-framework with batteries included 🔋
+  i will not lie this package is heavily inspired by `ExpressJs` 😆😆
+  \n
+- but with little bit more features 🤴
+- built-in validation including (DTO/class) validations ⚔
+- built-int loggers (console/file) 📃
+- middle-wares but we preferrer call Guards the can work globally or you can assign them to specific routes 💂‍♂️
+- hot-reload ⚡
 
-✔️ Stay Safe
+# Disclaimer
 
-👑 Stay inside the kingdom
+- the palace still in beta stage if you have a reliable replacement you should go with them
+  until we finish the palace , support us wil like and star on github and watch for new releases
 
-# take look at bin/main
-
-- to run use dart `bin/main.dart`
-- use `lighthouse` for `run` && `watch` for changes
-  `lh bin/main.dart`
-- there is a lot to do you are welcome to help building your `palace`
-
-# example
-
-if you want to test your self clone and run `bin/main.dart`
+# Example
 
 ```dart
 Future<void> main(List<String> args) async {
 
-  final palace = PalaceRouter();
+  final router = PalaceRouter();
 
-  palace.use(LoggerGuard());
 
-  palace.get('/greet_the_queen', (req, res) async {
-    return res.json({'data': 'Long Live The Queen'});
-  });
+  router.get('/greet_the_queen', (req, res) => res.write('Long Live The Queen'));
 
   /// start the `server`
-  await openGates(palace);
+  await openGates(router);
 }
 ```
 
@@ -47,9 +44,6 @@ mostly will be getters to ease extracting values form the `HttpRequest`
 wrapper class around dart `HttpResponse`
 will have functions ease the process of responding to the incoming requests
 
-## `PalaceGuard`
-
-abstract class with one function to execute before giving the http request for the handler witch meas if you responds to the request form any guards the requests will not reach the next guards or even the endpoint handler it self
 **if you response to the request you will be ending the request life cycle**
 
 - in case of ending
@@ -65,10 +59,3 @@ wait for incoming requests
 transforming them to Request object
 find the right endpoint if not found will respond with 404
 if exist will loop throw the guards and the endpoint handler then close the IO request
-
-## TODO
-
-- [x] configuration reader
-      example
-      `final port = config('port');`
-- []

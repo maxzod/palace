@@ -1,4 +1,4 @@
-import 'response.dart';
+import 'package:palace/palace.dart';
 
 extension ResponseWithView on Response {
   Future<void> view(String path, Map<String, dynamic> params) {

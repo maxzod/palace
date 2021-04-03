@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:path_to_regexp/path_to_regexp.dart';
-
-import '../http/request.dart';
-import '../http/response/response.dart';
+import 'package:palace/palace.dart';
 
 typedef Handler = FutureOr<void> Function(Request req, Response res);
 

@@ -1,6 +1,4 @@
-import 'package:palace/utils/config_reader.dart';
-
-import 'response.dart';
+import 'package:palace/palace.dart';
 import 'dart:io' as io;
 
 extension ResponseWithInternalServerError on Response {

@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  email_validator:
+    dependency: transitive
+    description:
+      name: email_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   http_server:
     dependency: "direct main"
     description:
@@ -43,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  palace_validators:
+    dependency: "direct main"
+    description:
+      name: palace_validators
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:
@@ -64,6 +78,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  queen_validators:
+    dependency: transitive
+    description:
+      name: queen_validators
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2-beta"
   source_span:
     dependency: transitive
     description:

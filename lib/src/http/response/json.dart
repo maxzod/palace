@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'response.dart';
+import 'package:palace/palace.dart';
 
 extension ResponseWithJson on Response {
   Future<void> json(

@@ -1,11 +1,8 @@
+import 'dart:io' as io;
 import 'package:palace/palace.dart';
 
-import 'dart:io' as io;
-
-extension ResponseWithNotFound on Response {
-  // will send the data converted to json
-  // if no statusCode was provided it will will set the status code to the defaultCode based on the request;
-  Future<void> notFound({
+extension ResponseWithAccepted on Response {
+  Future<void> accepted({
     Object? data,
   }) async {
     /// set the Response contentType to Json
@@ -16,8 +13,8 @@ extension ResponseWithNotFound on Response {
     /// append the data to the response
     await write(toJson(
       {
-        'status_code': io.HttpStatus.notFound,
-        'message': 'Not found',
+        'status_code': io.HttpStatus.accepted,
+        'message': 'Accepted',
         if (data != null) 'data': data,
       },
     ));

@@ -1,7 +1,6 @@
-import '../../utils/config_reader.dart';
-import '../http/request.dart';
-import '../http/response/response.dart';
+import 'package:palace/palace.dart';
 
+/// log the incoming requests in debug mode only within the console it self
 Future<void> loggerGuard(Request req, Response res) async {
   final enableLog = !config<bool>('production');
 

@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'package:http_server/http_server.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-import '../router/endpoint.dart';
+import 'package:palace/palace.dart';
 
 ///* contains simplified logic to extract data from the io req class
 class Request {
@@ -48,42 +48,7 @@ class Request {
 
   io.HttpRequest get ioRequest => request;
 
-  List<io.Cookie> get cookies => ioRequest.cookies;
-
   io.HttpHeaders get headers => ioRequest.headers;
 
-  Uri get uri => ioRequest.uri;
-
   String get method => request.method;
-  @override
-  String toString() {
-    return '''
-    At : ${DateTime.now().toIso8601String()} the palace had a visitor {
-    method: $method
-    cookies: $cookies
-    params: $params
-    path : ${uri.path}
-    
-    }
-    ''';
-  }
 }
-/*
-body : ${ioRequest.uri.data?.parameters}
-    body : ${ioRequest.requestedUri.data?.parameters}
-    body : ${ioRequest.requestedUri.queryParametersAll}
-    body : ${ioRequest.certificate}
-    body : ${ioRequest.connectionInfo}
-    body : ${ioRequest.contentLength}
-    body : ${ioRequest.cookies}
-    body : ${ioRequest.headers}
-    body : ${ioRequest.persistentConnection}
-    body : ${ioRequest.protocolVersion}
-    body : ${ioRequest.requestedUri}
-    body : ${ioRequest.session}
-    body : ${ioRequest.uri}
-    body : ${ioRequest.first}
-    body : ${ioRequest.isBroadcast}
-    body : ${ioRequest.last}
-    
-     */

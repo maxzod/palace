@@ -5,7 +5,8 @@ export 'package:palace/src/guards/logger.dart';
 
 /// ? http
 export 'package:palace/src/http/request.dart';
-export 'package:palace/src/http/response/response.dart';
+export 'package:palace/src/http/response.dart';
+export 'package:palace/src/http/response/index.dart';
 
 /// ? router
 export 'package:palace/src/router/endpoint.dart';

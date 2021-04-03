@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'endpoint.dart';
-import 'package:palace/src/http/response/not_found.dart';
+import 'package:palace/palace.dart';
 
 @immutable
 class PalaceRouter {

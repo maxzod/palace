@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'response.dart';
-import 'not_found.dart';
+import 'package:palace/palace.dart';
+
 import 'package:mime_type/mime_type.dart';
 
 extension ResponseWithFile on Response {

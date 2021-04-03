@@ -3,11 +3,6 @@ import 'dart:io' as io;
 
 import 'package:palace/palace.dart';
 
-import 'http/request.dart';
-import 'http/response/response.dart';
-import 'router/endpoint.dart';
-import 'router/router.dart';
-
 Future<void> openGates(
   PalaceRouter palaceRouter, {
   int port = 3000,

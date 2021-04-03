@@ -1,11 +1,5 @@
 import 'dart:convert';
 import 'dart:io' as io;
-//* export response extensions
-export 'file.dart';
-export 'internal_server_error.dart';
-export 'json.dart';
-export 'view.dart';
-export 'not_found.dart';
 
 /// * contains getters and logic to respond to incoming req
 ///
