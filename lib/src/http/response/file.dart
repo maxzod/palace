@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'response.dart';
@@ -7,33 +6,23 @@ import 'package:mime_type/mime_type.dart';
 
 extension ResponseWithFile on Response {
   Future<void> file(String name, String path) async {
-    try {
-      final _name = Uri.parse(name).toString();
-      request.response.headers
-          .add('Content-Disposition', 'attachment;filename=$_name');
-      ;
+    final _name = Uri.parse(name).toString();
+    request.response.headers.add('Content-Disposition', 'attachment;filename=$_name');
+    ;
 
-      final file = File(Directory.current.path + '/files' + path);
-      final exists = await file.exists();
-      if (!exists) {
-        await notFound();
-      }
-      response.setContentTypeFromFile(file);
-      await response.addStream(file.openRead());
-      await response.close();
-    } catch (e) {
-      print(e);
+    final file = File(Directory.current.path + '/files' + path);
+    final exists = await file.exists();
+    if (!exists) {
+      await notFound();
     }
     response.setContentTypeFromFile(file);
     await response.addStream(file.openRead());
-    await response.close();
   }
 }
 
 extension SS on HttpResponse {
   void setContentTypeFromFile(File file) {
-    if (headers.contentType == null ||
-        headers.contentType!.mimeType == 'text/plain') {
+    if (headers.contentType == null || headers.contentType!.mimeType == 'text/plain') {
       headers.contentType = file.contentType;
     } else {
       headers.contentType == ContentType.binary;

@@ -50,6 +50,9 @@ Future<void> openGates(
         // TODO :: log this exception
       }
       await Response(ioReq).internalServerError(exception: e);
+    } finally {
+      //  Close the req
+      await ioReq.response.close();
     }
   }
 }
