@@ -15,7 +15,8 @@ export 'package:palace/src/router/endpoint.dart';
 export 'package:palace/src/router/router.dart';
 
 /// ? utils
-export 'package:palace/utils/config_reader.dart';
+export 'package:palace/utils/yaml_parser.dart';
+export 'package:palace/utils/logger.dart';
 
 /// ? exceptions
 export 'package:palace/src/exceptions/bad_request.dart';
