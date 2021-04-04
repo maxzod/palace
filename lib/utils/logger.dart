@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:path/path.dart';
@@ -28,7 +27,7 @@ class PalaceLogger {
   }
 
   /// log the error to the console only
-  static void c(Object e) {
-    log('\n CONSOLE LOG : [${dt.toIso8601String()}] $e');
+  static void c(Object e, {StackTrace? st}) {
+    print('\n CONSOLE LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}');
   }
 }
