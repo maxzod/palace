@@ -8,7 +8,12 @@ import 'package:test/test.dart';
 void main() {
   late Palace router;
 
-  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:3000', followRedirects: true, validateStatus: (_) => true));
+  final _dio = Dio(BaseOptions(
+    baseUrl: 'http://localhost:3000',
+    followRedirects: true,
+    validateStatus: (_) => true,
+    contentType: ContentType.json.toString(),
+  ));
 
   setUp(() async {
     router = Palace();
@@ -19,6 +24,8 @@ void main() {
   });
 
   test('dato validation ', () async {
+    router.use(BodyParser());
+
     router.post('/auth/sign_in', (req, res) async {
       final dto = req.validate<SignInDto>();
       await res.write('email :${dto.email} , password:${dto.password}');

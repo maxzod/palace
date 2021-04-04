@@ -1,5 +1,4 @@
 import 'package:palace/palace.dart';
-import 'package:palace/src/excpetions/bad_request.dart';
 import 'dart:async';
 import 'dart:io';
 

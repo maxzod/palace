@@ -14,6 +14,7 @@ Future<void> main(List<String> arguments) async {
   /// ? or user the light house to run and watch for changes  'package:lighthouse'
 
   final palace = Palace();
+  palace.use(BodyParser());
   palace.get('/', (req, res) => res.write('Long Live The Queen !'));
   palace.post('/auth/sign_in', (req, res) async {
     /// ! will throw bad request exception
