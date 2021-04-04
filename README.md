@@ -2,12 +2,13 @@
 
 # Introduction
 
-- inside the palace 🏰 you have `Guards` and `Handlers` to serve your `Requests` 😉
+- inside the palace 🏰 you have `Guard`s and `Handler`s to serve your `Request`s 😉
 - batteries included 🔋
-  - validation including (DTO/class) validation ⚔
+  - validation including (`DTO` **OR** `class`) validation ⚔
   - loggers (console/file) 📃
-  - middle-wares but we preferrer to call them Guards 💂‍♂️
-  - hot-reload ⚡
+  - middle-wares but we preferrer to call them `Guard`s 💂‍♂️
+  - hot-reload ⚡ => `lighthouse`
+  - `.yaml` file reader 🍨 => `final dbConnection = await yaml<String>('DB_CONNECTION');`
 
 # Example
 
