@@ -59,11 +59,7 @@ like
 - `res.created(path)` => 201
 - and so on....
 
-#### **`if you respond to the request you will be ending the request life cycle this means guard still will be working but they can not modify the response any more`**
-
---
-
-### **`for more info look for guards part`**
+#### **if you respond to the request you will be ending the request life cycle this means guard still will be working but they can not modify the response any more**
 
 ## `PalaceRouter`
 
