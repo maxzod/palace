@@ -98,7 +98,6 @@ class Palace {
         guards: guards,
       ));
 
-  ///  TODO : throw error if endpoint is already reserved twice
   // void _bootstrap() {
   //   for (final e in _endpoints) {
   //     if (_endpoints.where((element) {
@@ -116,12 +115,17 @@ class Palace {
 
   Future<void> openGates({
     int port = 3000,
+    bool enableLogs = true,
   }) async {
-    // _bootstrap();
-    if (_server != null) {
-      print(_server);
-      await _server!.close(force: true);
+    // TODO :: Set the `enableLogs` to true by default in debug only
+    if (enableLogs) {
+      final tempGuards = [..._globalGuards];
+      _globalGuards.clear();
+      _globalGuards.addAll([LogsGuard(), ...tempGuards]);
     }
+    await _server?.close(force: true);
+
+    // _bootstrap();
 
     /// open the server
     _server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
