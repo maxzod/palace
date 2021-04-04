@@ -8,7 +8,7 @@ extension ResponseWithBadRequest on Response {
     /// set the Response contentType to Json
     response.headers.contentType = io.ContentType.json;
 
-    response.statusCode = io.HttpStatus.notFound;
+    response.statusCode = io.HttpStatus.badRequest;
 
     /// append the data to the response
     await write(toJson(

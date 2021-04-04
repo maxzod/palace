@@ -2,6 +2,7 @@ import 'dart:io' as io;
 import 'dart:mirrors';
 
 import 'package:http_server/http_server.dart';
+import 'package:palace/src/excpetions/bad_request.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace_validators/palace_validators.dart';
 import 'package:palace/palace.dart';
@@ -56,7 +57,7 @@ class Request {
     final dto = _buildDto<T>(body);
     final errs = validateDto(dto);
     if (errs.isNotEmpty) {
-      throw errs;
+      throw BadRequest(data: errs);
     }
     return dto as T;
   }

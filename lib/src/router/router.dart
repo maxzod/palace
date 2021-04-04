@@ -1,4 +1,5 @@
 import 'package:palace/palace.dart';
+import 'package:palace/src/excpetions/bad_request.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -159,6 +160,8 @@ class Palace {
       }
 
       await queue.first()();
+    } on BadRequest catch (e) {
+      await Response(ioReq).badRequest(data: e.data);
     } catch (e, st) {
       PalaceLogger.c(e, st: st);
       await Response(ioReq).internalServerError(exception: e);
