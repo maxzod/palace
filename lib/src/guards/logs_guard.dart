@@ -4,5 +4,7 @@ import 'package:palace/palace.dart';
 // it would be more clear
 /// TODO: log the incoming requests in debug mode only within the console it self
 class LogsGuard {
-  void call(Request req, Response res, Function next) {}
+  void call(Request req, Response res, Function next) async {
+    await next();
+  }
 }

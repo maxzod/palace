@@ -1,4 +1,5 @@
 import 'package:palace/palace.dart';
+import 'package:palace/src/exceptions/bad_request.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -125,13 +126,12 @@ class Palace {
     }
     await _server?.close(force: true);
 
-    // _bootstrap();
-
     /// open the server
     _server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
 
     /// print the server url
     print('Listening on http://localhost:$port');
+
     _server!.listen(_mainPipe);
   }
 
@@ -174,13 +174,44 @@ class Palace {
     }
   }
 
-  Future<void> closeGates() async => await _server?.close(force: true);
+  // Future<void> _mainPipe(HttpRequest ioReq) async {
+  //   /// * wait for incoming requests
 
-  // Future<void> closeGates() async {
-  //   // idk but still does not work
-  //   // Future<void> closeGates() async => await _server?.close(force: true);
-  //   if (_server != null) {
-  //     await _server!.close(force: true);
+  //   try {
+  //     /// * look for desired endpoint
+  //     final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
+
+  //     /// * create Place req form dart io req and the desired endpoint;
+  //     final req = await Request.init(ioReq, endpoint);
+  //     final res = Response(ioReq);
+
+  //     /// build list of guards
+  //     final guardsCount = guards.length + endpoint.guards.length;
+  //     final queue = <Function>[];
+
+  //     for (var i = 0; i <= guardsCount; i++) {
+  //       queue.add(() {
+  //         if (i == guardsCount) {
+  //           /// last guard NEXT will call the endpoint handler
+  //           return () => endpoint.handler(req, res);
+  //         } else {
+  //           /// next will call the next guard
+  //           return () => guards[i](req, res, queue[i + 1]());
+  //         }
+  //       });
+  //     }
+
+  //     await queue.first()();
+  //   } on BadRequest catch (e) {
+  //     await Response(ioReq).badRequest(data: e.data);
+  //   } catch (e, st) {
+  //     PalaceLogger.c(e, st: st);
+  //     await Response(ioReq).internalServerError(exception: e);
+  //   } finally {
+  //     ///  Close the req
+  //     await ioReq.response.close();
   //   }
   // }
+
+  Future<void> closeGates() async => await _server?.close(force: true);
 }

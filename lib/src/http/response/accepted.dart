@@ -1,6 +1,8 @@
 import 'dart:io' as io;
 import 'package:palace/palace.dart';
 
+/// status code 202
+/// m
 extension ResponseWithAccepted on Response {
   Future<void> accepted({
     Object? data,
@@ -8,7 +10,7 @@ extension ResponseWithAccepted on Response {
     /// set the Response contentType to Json
     response.headers.contentType = io.ContentType.json;
 
-    response.statusCode = io.HttpStatus.notFound;
+    response.statusCode = io.HttpStatus.accepted;
 
     /// append the data to the response
     await write(toJson(

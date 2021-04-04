@@ -11,6 +11,9 @@ class Request {
   final io.HttpRequest request;
 
   static Future<Request> init(io.HttpRequest request, EndPoint endPoint) async {
+    /// * set up request body
+    // final _body = await HttpBodyHandler.processRequest(request);
+
     ///* set up request path params
     final _pathParams = <String>[];
     final _pathRegx = pathToRegExp(endPoint.path, parameters: _pathParams);
@@ -18,6 +21,7 @@ class Request {
     var _routerParams = <String, String>{};
     if (match != null) _routerParams = extract(_pathParams, match);
 
+    ///* set up request query params
     return Request._(
       request: request,
       params: _routerParams,
