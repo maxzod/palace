@@ -1,5 +1,7 @@
 # **`Queen Palace 🏰👑`**
 
+### [**`discord 🤝`**](https://discord.gg/pa4JVtDCqx)
+
 # Introduction
 
 - inside the palace 🏰 you have `Guard`s and `Handler`s to serve your `Request`s 😉
