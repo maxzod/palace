@@ -3,31 +3,44 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-// TODO :: Logger throw exception
 class PalaceLogger {
   static DateTime get dt => DateTime.now();
   static Directory get logFolder => Directory(Directory.current.path + '\\logs\\');
   static FutureOr<File> get logFile async {
-    final fileName = join(logFolder.path + '${dt.year}-${dt.month}-${dt.day}.log');
-    final _logFile = File(fileName);
-    if (!await File(fileName).exists()) await _logFile.create();
+    final path = join(Directory(Directory.current.path + '\\logs\\').path + '${dt.year}-${dt.month}-${dt.day}.log');
+    final _logFile = File(path);
+
+    if (!await File(path).exists()) {
+      await Directory(logFolder.path).create();
+    }
+
     return _logFile;
   }
 
-  static Future<void> e(Object e) async {
-    await (await logFile).writeAsString('\n ERROR: [${dt.toIso8601String()}] $e', mode: FileMode.append);
+  static Future<String> e(Object e, {StackTrace? st}) async {
+    final _msg = '\n ERROR: [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+    await (await logFile).writeAsString(_msg, mode: FileMode.append);
+    return _msg;
   }
 
-  static Future<void> l(Object e) async {
-    await (await logFile).writeAsString('\n LOG: [${dt.toIso8601String()}] $e', mode: FileMode.append);
+  static Future<String> l(Object e, {StackTrace? st}) async {
+    final _msg = '\n LOG: [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+
+    await (await logFile).writeAsString(_msg, mode: FileMode.append);
+    return _msg;
   }
 
-  static Future<void> i(Object e) async {
-    await (await logFile).writeAsString('\n INFO: [${dt.toIso8601String()}] $e', mode: FileMode.append);
+  static Future<String> i(Object e, {StackTrace? st}) async {
+    final _msg = '\n INFO: [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+
+    await (await logFile).writeAsString(_msg, mode: FileMode.append);
+    return _msg;
   }
 
   /// log the error to the console only
-  static void c(Object e, {StackTrace? st}) {
-    print('\n CONSOLE LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}');
+  static String c(Object e, {StackTrace? st}) {
+    final _msg = '\n CONSOLE LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+    print(_msg);
+    return _msg;
   }
 }
