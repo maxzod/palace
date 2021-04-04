@@ -2,62 +2,91 @@
 
 # Introduction
 
-- inside the palace 🏰 you are a king 🤴 you have `Guards` and `Handlers` to serve your `Requests` 😉
-  micro-framework with batteries included 🔋
-  i will not lie this package is heavily inspired by `ExpressJs` 😆😆
-
-- but with little bit more features 🤴
-- built-in validation including (DTO/class) validation ⚔
-- built-int loggers (console/file) 📃
-- middle-wares but we preferrer to call Guards they can work globally or you can assign them to specific routes 💂‍♂️
-- hot-reload ⚡
-
-# Disclaimer
-
-- the palace still in beta stage if you have a reliable replacement you should go with them
-  until we finish the palace
-
-  **`BUT`** 95% the api will still the same 💡
-
-- 💙 support us by like and star the package on github and pub.dev and watch for new releases
+- inside the palace 🏰 you have `Guards` and `Handlers` to serve your `Requests` 😉
+- batteries included 🔋
+  - validation including (DTO/class) validation ⚔
+  - loggers (console/file) 📃
+  - middle-wares but we preferrer to call them Guards 💂‍♂️
+  - hot-reload ⚡
 
 # Example
 
+- [Hello world]()
+- [Routes]()
+- [Custom_response]()
+- [Validation]()
+- [Logs]()
+
 ```dart
 Future<void> main(List<String> args) async {
-
   final router = PalaceRouter();
-
-
   router.get('/greet_the_queen', (req, res) => res.write('Long Live The Queen'));
-
-  /// start the `server`
-  await openGates(router);
+  await router.openGates();
 }
 ```
 
-## Core Parts
+## [you can find quick start guide here ⁉📇](https://maxzod.github.io/palace/)
+
+## **`Core Parts`**
+
+## **`Handler`**
+
+type of functions that
+
+- return `Future` or `void`
+- takes tow arguments
+  - `Request` req
+  - `Response` res
+
+a handler will be triggered when a match happened between the incoming request and the endpoint registered path
 
 ## `Request`
 
 wrapper class around dart `HttpRequest`
-mostly will be getters to ease extracting values form the `HttpRequest`
+will contains wrappers around the `dart:io` `HttpRequest` class and the `httpRequest` itself
 
 ## `Response`
 
-wrapper class around dart `HttpResponse`
+wrapper class around `dart:io` `HttpResponse`
 will have functions ease the process of responding to the incoming requests
+like
 
-#### **`if you response to the request you will be ending the request life cycle`**
+- `res.json(data)` will convert the given data to `JSON` and sent it back to the user
+- `res.file(path)`
+- `res.notFound(path)` => 404
+- `res.internalServerError(path)` => 500
+- `res.accepted(path)` => 200
+- `res.created(path)` => 201
+- and so on....
+
+#### **`if you respond to the request you will be ending the request life cycle this means guard still will be working but they can not modify the response any more`**
+
+--
+
+### **`for more info look for guards part`**
 
 ## `PalaceRouter`
 
-to help you set routes and the handler for each route
+- register routes and the handler for each route
+- register guards
+- open the server
+- close the server
 
-## `palace`
+### Middleware aka **`Guard`** 💂‍♂️
 
-the palace file contains only one function `openGates(PalaceRouter,{port})` which takes palace router and will start server
-wait for incoming requests
-transforming them to Request object
-find the right endpoint if not found will respond with 404
-if exist will loop throw the guards and the endpoint handler then close the IO request
+type of functions that
+
+- return `Future` or `void`
+- takes three arguments
+
+  - `Request` req
+  - `Response` res
+  - `Function` next
+
+guards considered as extra layer before the Handlers layers
+
+a guard can be registered for specific route or as global guard for any kind of requests
+
+a guard can response to incoming requests since the have access to the instance of the incoming request
+
+a guard can preform any kind of logic before or after the handler be triggered

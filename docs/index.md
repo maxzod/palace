@@ -32,7 +32,7 @@ Future<void> main(List<String> args) async {
 
 this is what you need to know about the router for now (it can do more but we will keep simple for introduction)
 
-### line 2 : `get` function
+### line 2 : `get` method
 
 within the place instance you cant register end point for specific router and specific http method for example
 
