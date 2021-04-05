@@ -16,6 +16,7 @@ export 'package:palace/src/router/router.dart';
 
 /// ? utils
 export 'package:palace/utils/yaml_parser.dart';
+export 'package:palace/utils/file_helper.dart';
 export 'package:palace/utils/logger.dart';
 
 /// ? exceptions
