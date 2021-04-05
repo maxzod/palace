@@ -1,3 +1,3 @@
-## 0.0.0-beta2
+## 0.0.1
 
-- Initial version, created by Some knights
+- Initial version

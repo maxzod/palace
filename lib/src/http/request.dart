@@ -58,10 +58,10 @@ class Request {
 
   T validate<T>() {
     final dto = buildDto<T>(body);
-    final errs = validateDto(dto);
+    final errs = validateDto(dto as Object);
     if (errs.isNotEmpty) {
       throw BadRequest(data: errs);
     }
-    return dto as T;
+    return dto;
   }
 }

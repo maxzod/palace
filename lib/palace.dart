@@ -18,6 +18,7 @@ export 'package:palace/src/router/router.dart';
 export 'package:palace/utils/yaml_parser.dart';
 export 'package:palace/utils/file_helper.dart';
 export 'package:palace/utils/logger.dart';
+export 'package:palace_validators/dto_validator.dart';
 
 /// ? exceptions
 export 'package:palace/src/exceptions/bad_request.dart';

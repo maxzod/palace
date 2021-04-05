@@ -17,6 +17,8 @@ void main() {
 
   setUp(() async {
     router = Palace();
+    router.use(BodyParser());
+
     await router.openGates();
   });
   tearDown(() async {
@@ -24,8 +26,6 @@ void main() {
   });
 
   test('dato validation ', () async {
-    router.use(BodyParser());
-
     router.post('/auth/sign_in', (req, res) async {
       final dto = req.validate<SignInDto>();
       await res.write('email :${dto.email} , password:${dto.password}');
@@ -45,11 +45,31 @@ void main() {
 
     expect(validReqRes.data, equals('email :queen@palace.kingdom , password:to_kingdom_secret'));
   });
+  test('IsOptionalDto validation ', () async {
+    router.post('/auth/signup', (req, res) async {
+      final dto = req.validate<IsOptionalDto>();
+      await res.write('email :${dto.email} , password:${dto.password}');
+    });
+    final validReqRes = await _dio.post('/auth/signup', data: {'email': 'queen@palace.kingdom', 'password': 'to_kingdom_secret'});
+
+    expect(validReqRes.data, equals('email :queen@palace.kingdom , password:to_kingdom_secret'));
+  });
 }
 
 class SignInDto {
   @IsEmail()
-  late String email;
+  String? email;
   @MinLength(6)
-  late String password;
+  String? password;
+}
+
+class IsOptionalDto {
+  @IsEmail()
+  String? email;
+  @MinLength(6)
+  String? password;
+
+  @IsOptional()
+  @MinLength(50)
+  String? fcmToken;
 }
