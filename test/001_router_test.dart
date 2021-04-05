@@ -38,5 +38,4 @@ void main() {
     expect(response.statusCode, HttpStatus.ok);
     expect(response.data, '/users/:id/sub');
   });
-  // test('forbidden duplicate', () async {});
 }
