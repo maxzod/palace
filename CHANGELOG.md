@@ -2,6 +2,7 @@
 
 - add res.created and res.ok
 - fix validation type miss match now it convert types to the dto by default
+- add mongodb example
 -
 
 ## 0.0.1+1

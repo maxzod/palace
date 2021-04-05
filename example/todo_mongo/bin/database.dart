@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:palace/palace.dart';
 
 class AppDatabase {
   static Db? _instance;
-  static Future<Db> get instance async {
+  static FutureOr<Db> get instance async {
     return _instance ??= await AppDatabase._init();
   }
 

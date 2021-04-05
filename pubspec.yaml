@@ -1,5 +1,5 @@
 name: palace
-version: 0.0.1+1
+version: 0.0.1+2
 description: build server side dart applications with expressjs like framework but with batteries included
 homepage: https://github.com/maxzod/
 # publish_to: "none"
