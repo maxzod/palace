@@ -54,12 +54,12 @@ wrapper class around `dart:io` `HttpResponse`
 will have functions ease the process of responding to the incoming requests
 like
 
-- `res.json(data)` will convert the given data to `JSON` and sent it back to the user
+- `res.json(data?)` will convert the given data to `JSON` and sent it back to the user
 - `res.file(path)`
-- `res.notFound(path)` => 404
-- `res.internalServerError(path)` => 500
-- `res.accepted(path)` => 200
-- `res.created(path)` => 201
+- `res.notFound(data?)` => 404
+- `res.internalServerError(data?)` => 500
+- `res.accepted(data?)` => 200
+- `res.created(data?)` => 201
 - and so on....
 
 #### **if you respond to the request you will be ending the request life cycle this means guard still will be working but they can not modify the response any more**
