@@ -1,3 +1,9 @@
+## 0.0.1+2
+
+- add res.created and res.ok
+- fix validation type miss match now it convert types to the dto by default
+-
+
 ## 0.0.1+1
 
 - update dependencies
