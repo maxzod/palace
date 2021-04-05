@@ -6,9 +6,6 @@ import 'package:yaml/yaml.dart';
 Future<T?> yaml<T>(String key) async => _YamlParser.yaml<T>(key);
 
 class _YamlParser {
-  // final String key;
-  // Yaml(this.key);
-
   /// the formatted content of the yaml file
   static dynamic? _yaml;
 

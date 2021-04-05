@@ -1,6 +1,5 @@
 import 'package:palace/palace.dart';
 
-///
 class StaticGuard {
   final String path;
 

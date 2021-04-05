@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-class PalaceLogger {
+class COLORS {
+  // TODO :: USE COLOROS TO MAKE LOG MORE CLEAR
   static DateTime get dt => DateTime.now();
   static Directory get logFolder => Directory(Directory.current.path + '\\logs\\');
   static FutureOr<File> get logFile async {
@@ -39,7 +40,7 @@ class PalaceLogger {
 
   /// log the error to the console only
   static String c(Object e, {StackTrace? st}) {
-    final _msg = '\n CONSOLE LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+    final _msg = 'LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
     print(_msg);
     return _msg;
   }

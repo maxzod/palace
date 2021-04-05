@@ -11,6 +11,8 @@ extension ResponseWithNotFound on Response {
     /// set the Response contentType to Json
     response.headers.contentType = io.ContentType.json;
 
+    /// set the status code to 404
+
     response.statusCode = io.HttpStatus.notFound;
 
     /// append the data to the response

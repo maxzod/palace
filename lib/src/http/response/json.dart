@@ -8,7 +8,8 @@ extension ResponseWithJson on Response {
   }) async {
     /// set the Response contentType to Json
     response.headers.contentType = ContentType.json;
-    // set the default status code
+
+    /// set the default status code
     response.statusCode = statusCode ?? defStatusCode;
 
     /// append the data to the response

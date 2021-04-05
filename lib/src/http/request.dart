@@ -11,20 +11,19 @@ class Request {
   final io.HttpRequest request;
 
   static Future<Request> init(io.HttpRequest request, EndPoint endPoint) async {
-    /// * set up request body
-    // final _body = await HttpBodyHandler.processRequest(request);
-
     ///* set up request path params
     final _pathParams = <String>[];
     final _pathRegx = pathToRegExp(endPoint.path, parameters: _pathParams);
     final match = _pathRegx.matchAsPrefix(request.uri.path);
-    var _routerParams = <String, String>{};
-    if (match != null) _routerParams = extract(_pathParams, match);
 
-    ///* set up request query params
+    var _routeParams = <String, String>{};
+    if (match != null) _routeParams = extract(_pathParams, match);
+
     return Request._(
       request: request,
-      params: _routerParams,
+      params: _routeParams,
+
+      ///* set up request query params
       queryParams: request.uri.queryParameters,
     );
   }
@@ -43,25 +42,42 @@ class Request {
   // set bodyType(String bodyType) => _bodyType = bodyType;
   set bodyType(bodyType) => _bodyType = bodyType;
 
+  /// the request body
   dynamic get body => _body ?? ioRequest.uri.data;
+
+  /// the request body type  example => 'json' or 'form'
   String? get bodyType => _bodyType;
 
   /// ? getter part
   late Map<String, dynamic> params;
-  late Map<String, dynamic> queryParams;
 
+  /// the query parameters from the incoming request
+  Map<String, dynamic> queryParams;
+
+  /// the HttpRequest instance
   io.HttpRequest get ioRequest => request;
 
+  /// the HttpHeaders instance from the request
   io.HttpHeaders get headers => ioRequest.headers;
 
+  /// the request method
   String get method => request.method;
 
+  /// to validate the wit dto
+  /// ! `throw BadRequest exception`
   T validate<T>() {
+    /// build dto from the request body
     final dto = buildDto<T>(body);
+
+    /// validate the dto
     final errs = validateDto(dto as Object);
+
+    /// in case of any failure throw exception
     if (errs.isNotEmpty) {
       throw BadRequest(data: errs);
     }
+
+    /// else every thing is fine return the dto
     return dto;
   }
 }

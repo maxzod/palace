@@ -6,15 +6,27 @@ import 'dart:io';
 import 'package:palace/utils/logger.dart';
 
 class Palace {
+  /// contains the registered end points form any methods like
+  /// `router.get` or `router.post` and so on
   final List<EndPoint> _endpoints = [];
+
+  /// contains the registered guards [globally] from the `use` method
+  /// `router.use`
   final List<Guard> _globalGuards = [];
+
+  /// will be called in case of no match with any of the registered endpoints
   Handler? _notFoundHandler;
+
+  /// set not found the handler
   set notFoundHandler(Handler h) => _notFoundHandler = h;
+
+  /// get the not found handler id none was assigned it will return the defaults 404 handler;
   Handler get notFoundHandler => _notFoundHandler ?? (Request req, Response res) => res.notFound();
 
+  /// the server instance
   HttpServer? _server;
 
-  /// to add global handler for the entire app
+  /// assign `Guard` to work globally `on any request with any method`
   void use(Guard guard) => _globalGuards.add(guard);
 
   EndPoint? match(String method, String path) {
@@ -72,7 +84,7 @@ class Palace {
   }) =>
       _endpoints.add(EndPoint(
         path: path,
-        method: 'POST',
+        method: 'PUT',
         handler: handler,
         guards: guards,
       ));
@@ -100,6 +112,7 @@ class Palace {
       ));
 
   // void _bootstrap() {
+  // TODO _bootstrap
   //   for (final e in _endpoints) {
   //     if (_endpoints.where((element) {
   //           if (e.method.toUpperCase() == 'ALL') {
@@ -132,12 +145,12 @@ class Palace {
     /// print the server url
     print('Listening on http://localhost:$port');
 
+    /// add listener to incoming requests stream
     _server!.listen(_mainPipe);
   }
 
   Future<void> _mainPipe(HttpRequest ioReq) async {
     /// * wait for incoming requests
-
     try {
       /// * look for desired endpoint
       final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
@@ -166,52 +179,13 @@ class Palace {
     } on BadRequest catch (e) {
       await Response(ioReq).badRequest(data: e.data);
     } catch (e, st) {
-      PalaceLogger.c(e, st: st);
+      COLORS.c(e, st: st);
       await Response(ioReq).internalServerError(exception: e);
     } finally {
-      //  Close the req
+      ///  Close the req
       await ioReq.response.close();
     }
   }
-
-  // Future<void> _mainPipe(HttpRequest ioReq) async {
-  //   /// * wait for incoming requests
-
-  //   try {
-  //     /// * look for desired endpoint
-  //     final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
-
-  //     /// * create Place req form dart io req and the desired endpoint;
-  //     final req = await Request.init(ioReq, endpoint);
-  //     final res = Response(ioReq);
-
-  //     /// build list of guards
-  //     final guardsCount = guards.length + endpoint.guards.length;
-  //     final queue = <Function>[];
-
-  //     for (var i = 0; i <= guardsCount; i++) {
-  //       queue.add(() {
-  //         if (i == guardsCount) {
-  //           /// last guard NEXT will call the endpoint handler
-  //           return () => endpoint.handler(req, res);
-  //         } else {
-  //           /// next will call the next guard
-  //           return () => guards[i](req, res, queue[i + 1]());
-  //         }
-  //       });
-  //     }
-
-  //     await queue.first()();
-  //   } on BadRequest catch (e) {
-  //     await Response(ioReq).badRequest(data: e.data);
-  //   } catch (e, st) {
-  //     PalaceLogger.c(e, st: st);
-  //     await Response(ioReq).internalServerError(exception: e);
-  //   } finally {
-  //     ///  Close the req
-  //     await ioReq.response.close();
-  //   }
-  // }
 
   Future<void> closeGates() async => await _server?.close(force: true);
 }

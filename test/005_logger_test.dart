@@ -21,7 +21,7 @@ void main() {
     final st = StackTrace.fromString('this is dummy stack trance form !');
     final e = Exception('this is dummy exception');
     for (var i = 0; i < 10; i++) {
-      final msg = await PalaceLogger.l(e, st: st);
+      final msg = await COLORS.l(e, st: st);
       logsInString.write(msg);
     }
     expect(await logFile.readAsString(), equals(logsInString.toString()));

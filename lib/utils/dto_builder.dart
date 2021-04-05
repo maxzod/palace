@@ -18,7 +18,7 @@ T buildDto<T>(Object body) {
     //   }
     // }
     for (final field in fields) {
-      final fieldName = extractSymbolName(field.simpleName);
+      final fieldName = _extractSymbolName(field.simpleName);
       dtoMirror.setField(field.simpleName, _body[fieldName]);
     }
 
@@ -28,8 +28,7 @@ T buildDto<T>(Object body) {
   }
 }
 
-/// https://github.com/dart-lang/sdk/issues/28372
-/// until i find a better way will use this
-String extractSymbolName(Symbol symbol) {
+String _extractSymbolName(Symbol symbol) {
+  /// TODO :: there is a better way but i don't remember it
   return symbol.toString().replaceAll('Symbol("', '').replaceAll('")', '');
 }

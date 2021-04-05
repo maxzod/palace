@@ -13,6 +13,7 @@ extension ResponseWithInternalServerError on Response {
       /// set the Response contentType to Json
       response.headers.contentType = io.ContentType.json;
 
+      /// set the status code to 500
       response.statusCode = io.HttpStatus.internalServerError;
 
       response.write(toJson(
