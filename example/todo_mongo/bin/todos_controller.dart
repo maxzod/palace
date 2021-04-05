@@ -4,15 +4,18 @@ import 'database.dart';
 import 'todo_dto.dart';
 
 Future<void> createOne(Request req, Response res) async {
+  print(req.body);
+  print(req.bodyType);
+  print(req.body['isDone'].runtimeType);
   final dto = req.validate<CreateTodoDto>();
   final _db = await AppDatabase.instance;
 
-  await _db.collection('todo').insert({
+  final todo = await _db.collection('todo').insert({
     'text': dto.text,
     'isDone': dto.isDone,
     'priority': dto.priority,
   });
-  return res.created();
+  return res.created(data: todo);
 }
 
 Future<void> findMany(Request req, Response res) async {
@@ -32,10 +35,16 @@ Future<void> updateOne(Request req, Response res) async {
   }
   final result = await coll.updateOne(
     where.id(ObjectId.parse(id)),
-    modify.set('text', dto.text).set('isDone', dto.isDone).set('priority', dto.priority),
+    modify
+        .set('text', dto.text)
+        .set('isDone', dto.isDone)
+        .set('priority', dto.priority),
   );
+  //  TODO IDK :: why mongo return null after update
+  // but it updates fine
 
-  return res.ok(data: result.document);
+  return res.ok(
+      data: await coll.findOne(where.id(ObjectId.parse(id))) ?? 'why null');
 }
 
 Future<void> deleteOne(Request req, Response res) async {

@@ -4,7 +4,10 @@ Future<void> main(List<String> arguments) async {
   final palace = Palace();
   palace.get('/', (req, res) => res.write('Long Live The Queen ! 👑'));
   palace.get('/profile', (req, res) => res.write('some price profile'));
-  palace.post('/signup', (req, res) => res.write('you have called sign up endpoint with post method '));
+  palace.post(
+      '/signup',
+      (req, res) =>
+          res.write('you have called sign up endpoint with post method '));
   palace.all(
       '/about',
       (req, res) => res.write(
