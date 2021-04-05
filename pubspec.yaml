@@ -1,6 +1,6 @@
 name: palace
-version: 0.0.1
-description: Dart Server Side framework
+version: 0.0.1+1
+description: build server side dart applications with expressjs like framework but with batteries included
 homepage: https://github.com/maxzod/
 # publish_to: "none"
 environment:
@@ -15,7 +15,7 @@ dependencies:
   # classes to ease access to http-server utils
   mime_type: ^1.0.0
   palace_validators: ^0.0.3
-  path:
+  path: ^1.8.0
 
 dev_dependencies:
   pedantic: 1.11.0

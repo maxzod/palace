@@ -6,7 +6,8 @@ import 'package:path/path.dart';
 
 extension ResponseWithFile on Response {
   Future<void> file(String path, {String? name}) async {
-    assert(path.trim().isNotEmpty, 'Palace ERROR : file path can not be empty ! ');
+    assert(
+        path.trim().isNotEmpty, 'Palace ERROR : file path can not be empty ! ');
 
     /// find the full path to the file
     final file = File(join(Directory.current.path, path));
@@ -18,7 +19,8 @@ extension ResponseWithFile on Response {
     if (!await file.exists()) return await notFound();
 
     /// set the response to download the file
-    request.response.headers.add('Content-Disposition', 'attachment;filename=$_name');
+    request.response.headers
+        .add('Content-Disposition', 'attachment;filename=$_name');
 
     /// set the content type
     _setContentType(request.response, file);
@@ -28,7 +30,8 @@ extension ResponseWithFile on Response {
   }
 
   void _setContentType(HttpResponse response, File file) {
-    final setToFileType = response.headers.contentType == null || response.headers.contentType?.mimeType == 'text/plain';
+    final setToFileType = response.headers.contentType == null ||
+        response.headers.contentType?.mimeType == 'text/plain';
     if (setToFileType) {
       response.headers.contentType = getFileContentType(file);
     } else {

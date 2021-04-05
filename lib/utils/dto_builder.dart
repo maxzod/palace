@@ -8,7 +8,8 @@ T buildDto<T>(Object body) {
     var _body = body is String ? jsonDecode(body) : body;
     final dtoClassRef = reflectClass(T);
     final dtoMirror = dtoClassRef.newInstance(Symbol.empty, []);
-    final fields = dtoMirror.type.declarations.values.whereType<VariableMirror>();
+    final fields =
+        dtoMirror.type.declarations.values.whereType<VariableMirror>();
     _body as Map<String, dynamic>;
 
     /// ! throws LateInitializationError
