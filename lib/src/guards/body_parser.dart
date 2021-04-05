@@ -12,6 +12,8 @@ class BodyParser {
 
     /// might be json or form
     req.bodyType = _reqBody.type;
+
+    /// call the next guard or handler
     await next();
   }
 }
