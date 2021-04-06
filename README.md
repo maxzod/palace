@@ -12,13 +12,11 @@
   - hot-reload ⚡ => `lighthouse`
   - `.yaml` file reader 🍨 => `final dbConnection = await yaml<String>('DB_CONNECTION');`
 
-# Example
+# Examples
 
-- [Hello world]()
-- [Routes]()
-- [Custom_response]()
-- [Validation]()
-- [Logs]()
+[here you can find examples repository](https://github.com/maxzod/examples)
+
+# greet the queen app
 
 ```dart
 Future<void> main(List<String> args) async {
