@@ -133,8 +133,10 @@ class Palace {
 
   Future<void> openGates({
     int port = 3000,
+    String? ip,
     bool enableLogs = true,
   }) async {
+    ip ??= InternetAddress.anyIPv4.address;
     // TODO :: Set the `enableLogs` to true by default in debug only
     if (enableLogs) {
       final tempGuards = [..._globalGuards];
@@ -144,7 +146,7 @@ class Palace {
     await _server?.close(force: true);
 
     /// open the server
-    _server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
+    _server = await HttpServer.bind(ip, port);
 
     /// print the server url
     print('Listening on http://localhost:$port');
