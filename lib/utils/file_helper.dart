@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
 
-String getFileName(File file) => basename(file.path);
+String getFileName(File file) {
+  final name = basename(file.path);
+  return Uri.parse(name).toString();
+}
 
 String? getFileMimeType(File file) => mime(file.path);
 
