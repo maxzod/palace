@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:palace/utils/yaml_parser.dart';
 import 'package:path/path.dart';
 
 class Logger {
@@ -43,5 +44,15 @@ class Logger {
     final _msg = 'LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
     print(_msg);
     return _msg;
+  }
+
+  static Future<String> whenEnabled(Object e, {StackTrace? st}) async {
+    final _msg = 'LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
+    if (await allowLogs) {
+      print(_msg);
+      return _msg;
+    } else {
+      return _msg;
+    }
   }
 }
