@@ -4,13 +4,14 @@
 
 # Introduction
 
-- inside the palace 🏰 you have `Guard`s and `Handler`s to serve your `Request`s 😉
+- inside the palace 🏰 you have **`Guard`s** and **`Handler`s** to serve your **`Request`s** 😉
 - batteries included 🔋
-  - validation including (`DTO` **OR** `class`) validation ⚔
-  - loggers (console/file) 📃
-  - middle-wares but we preferrer to call them `Guard`s 💂‍♂️
-  - hot-reload ⚡ => `lighthouse`
-  - `.yaml` file reader 🍨 => `final dbConnection = await yaml<String>('DB_CONNECTION');`
+  - **validation** including (`DTO` **OR** `class`) validation ⚔
+  - **loggers** (console/file) 📃
+  - **middle-wares** but we preferrer to call them **`Guard`s** 💂‍♂️
+  - **hot-reload** ⚡ => [`lighthouse`](https://github.com/maxzod/lighthouse)
+  - **.yaml** file reader 🍨
+  <!-- - `final dbConn = await yaml<String>('DB_CONNECTION');` -->
 
 # Examples
 
