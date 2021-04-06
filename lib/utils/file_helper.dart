@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:mime_type/mime_type.dart';
+import 'package:path/path.dart';
 
-String getFileName(File file) {
-  var fileName = (file.path.split('/').last);
-  return file.path.replaceAll('/$fileName', '');
-}
+String getFileName(File file) => basename(file.path);
 
 String? getFileMimeType(File file) => mime(file.path);
 
