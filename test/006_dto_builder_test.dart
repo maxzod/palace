@@ -22,13 +22,26 @@ void main() {
     final dto = buildDto<SimpleDto>(body);
     expect(dto.name, equals('ahmed'));
   });
+  test('nullable values', () async {
+    final body = {'name': 'ahmed'};
+    final dto = buildDto<NullAbleDto>(body);
+    expect(dto.name, equals('ahmed'));
+    expect(dto.email, equals(null));
+  });
 }
 
 class SimpleDto {
-  String? name;
+  late String name;
 }
 
 class SimpleDto2 {
-  String? name;
+  late String? name;
+
+  late String? email;
+}
+
+class NullAbleDto {
+  late String name;
+
   String? email;
 }
