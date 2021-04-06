@@ -183,7 +183,7 @@ class Palace {
     } on BadRequest catch (e) {
       await Response(ioReq).badRequest(data: e.data);
     } catch (e, st) {
-      COLORS.c(e, st: st);
+      Logger.c(e, st: st);
       await Response(ioReq).internalServerError(exception: e);
     } finally {
       ///  Close the req
