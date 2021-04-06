@@ -8,12 +8,14 @@ void main() {
   /// the time in the Naho <3 zone
   // final dt = DateTime(2021, 4, 1, 5, 40);
   final dt = DateTime.now();
-  final logFile = File(path.join(Directory(Directory.current.path + '\\logs\\').path + '${dt.year}-${dt.month}-${dt.day}.log'));
+  final logsDirectory = Directory(Directory.current.path + '\\logs\\');
+  final logFile = File(path.join(logsDirectory.path + '${dt.year}-${dt.month}-${dt.day}.log'));
   setUp(() async {
     if (await logFile.exists()) await logFile.delete();
   });
 
   tearDown(() async {
+    if (await logsDirectory.exists()) await logsDirectory.delete();
     if (await logFile.exists()) await logFile.delete();
   });
   test('log errors', () async {
