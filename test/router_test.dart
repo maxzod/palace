@@ -22,10 +22,22 @@ void main() {
     expect(res.statusCode, HttpStatus.notFound);
     expect(res.data, equals({'status_code': 404, 'message': 'Not found', 'data': 'custom not found handler msg'}));
   });
-  test('home route', () async {
+  test('all', () async {
+    router.all('/', (req, res) => res.write('hello world'));
+    final responseGet = await _dio.get('/');
+    expect(responseGet.data, equals('hello world'));
+    final responsePost = await _dio.get('/');
+    expect(responsePost.data, equals('hello world'));
+    final responsePut = await _dio.get('/');
+    expect(responsePut.data, equals('hello world'));
+    final responseDELETE = await _dio.get('/');
+    expect(responseDELETE.data, equals('hello world'));
+  });
+  test('get', () async {
     router.get('/', (req, res) => res.write('hello world'));
     final response = await _dio.get('/');
     expect(response.statusCode, HttpStatus.ok);
+    expect(response.data, equals('hello world'));
   });
   test('match with one segment', () async {
     router.get('/users/:id', (req, res) => res.write('/users/:id'));

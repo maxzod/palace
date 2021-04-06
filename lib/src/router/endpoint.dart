@@ -4,8 +4,7 @@ import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace/palace.dart';
 
 typedef Handler = FutureOr<void> Function(Request req, Response res);
-typedef Guard = FutureOr<void> Function(
-    Request req, Response res, Function next);
+typedef Guard = FutureOr<void> Function(Request req, Response res, Function next);
 
 /// every `request` must have a `endpoint` ready to handle it
 /// else the `palace` will respond with `404`
@@ -26,10 +25,13 @@ class EndPoint {
 
   bool match(String method, String path) {
     final regExp = pathToRegExp(this.path);
-    final methodMatch = method.toUpperCase() == 'ALL'
-        ? true
-        : this.method.toUpperCase() == method.toUpperCase();
-    return methodMatch && regExp.hasMatch(path);
+    final pathMatch = regExp.hasMatch(path);
+    if (this.method == '*') {
+      return pathMatch;
+    } else {
+      final methodMatch = this.method == method.toUpperCase();
+      return methodMatch && pathMatch;
+    }
   }
 
   @override

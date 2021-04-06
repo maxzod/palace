@@ -34,7 +34,7 @@ class Palace {
   void use(Guard guard) => _globalGuards.add(guard);
 
   EndPoint? match(String method, String path) {
-    // TODO :: Better way this will perform badly when many routers exist 'BigO'
+    // TODO :: find a Better way this will perform badly when many routers exist 'BigO'
     try {
       return _endpoints.firstWhere((e) => e.match(method, path));
     } on StateError {
@@ -51,7 +51,7 @@ class Palace {
   }) {
     _endpoints.add(EndPoint(
       path: path,
-      method: 'ALL',
+      method: '*',
       handler: handler,
       guards: guards,
     ));
