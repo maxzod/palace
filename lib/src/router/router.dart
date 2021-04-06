@@ -1,5 +1,6 @@
 import 'package:palace/palace.dart';
 import 'package:palace/src/exceptions/bad_request.dart';
+import 'package:palace/src/guards/body_parser.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -12,7 +13,10 @@ class Palace {
 
   /// contains the registered guards [globally] from the `use` method
   /// `router.use`
-  final List<Guard> _globalGuards = [];
+  final List<Guard> _globalGuards = [
+    /// body parser is on by default
+    BodyParser(),
+  ];
 
   /// will be called in case of no match with any of the registered endpoints
   Handler? _notFoundHandler;

@@ -106,13 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  http:
-    dependency: "direct dev"
-    description:
-      name: http
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -128,7 +121,7 @@ packages:
     source: hosted
     version: "4.0.0"
   http_server:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http_server
       url: "https://pub.dartlang.org"
@@ -197,6 +190,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  palace_body_parser:
+    dependency: "direct main"
+    description:
+      name: palace_body_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   palace_validators:
     dependency: "direct main"
     description:

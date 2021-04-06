@@ -35,18 +35,11 @@ class Request {
   });
 
   dynamic? _body;
-  String? _bodyType;
 
   set body(b) => _body = b;
-  // TODO :: why body type setter conflict with the getter when i set type to string
-  // set bodyType(String bodyType) => _bodyType = bodyType;
-  set bodyType(bodyType) => _bodyType = bodyType;
 
   /// the request body
-  dynamic get body => _body ?? ioRequest.uri.data;
-
-  /// the request body type  example => 'json' or 'form'
-  String? get bodyType => _bodyType;
+  Map<String?, dynamic> get body => _body ?? request.uri.data;
 
   /// ? getter part
   late Map<String, dynamic> params;
@@ -55,10 +48,9 @@ class Request {
   Map<String, dynamic> queryParams;
 
   /// the HttpRequest instance
-  io.HttpRequest get ioRequest => request;
 
   /// the HttpHeaders instance from the request
-  io.HttpHeaders get headers => ioRequest.headers;
+  io.HttpHeaders get headers => request.headers;
 
   /// the request method
   String get method => request.method;

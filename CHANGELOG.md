@@ -1,3 +1,7 @@
+## 0.0.1+3
+
+- no more `palace.use(BodyParser());` its its powered by `palace_body_parser` out of the box 🎁
+
 ## 0.0.1+2
 
 - add res.created and res.ok

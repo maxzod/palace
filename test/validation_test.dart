@@ -17,7 +17,6 @@ void main() {
 
   setUp(() async {
     router = Palace();
-    router.use(BodyParser());
 
     await router.openGates();
   });
