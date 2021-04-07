@@ -1,6 +1,6 @@
 ## 0.0.1+3
 
-- no more `palace.use(BodyParser());` its its powered by `palace_body_parser` out of the box 🎁
+- no more `palace.use(BodyParser());` its now powered by `palace_body_parser` out of the box 🎁
 - fix `ip` bug 🐛
 - fix `router.all()` ✔
 - fix validation errors now come within list of strings fixed for all failures 📃❌

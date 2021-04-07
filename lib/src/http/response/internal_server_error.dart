@@ -10,13 +10,7 @@ extension ResponseWithInternalServerError on Response {
     Object? exception,
   }) async {
     try {
-      /// set the Response contentType to Json
-      response.headers.contentType = io.ContentType.json;
-
-      /// set the status code to 500
-      response.statusCode = io.HttpStatus.internalServerError;
-
-      response.write(toJson(
+      await json(
         {
           'status_code': io.HttpStatus.internalServerError,
           'message': 'Internal Server Error',
@@ -24,8 +18,8 @@ extension ResponseWithInternalServerError on Response {
           if (exception != null) 'exception': exception
           // if (exception != null && !isInProduction) 'exception': exception
         },
-      ));
-      // ignore: empty_catches
-    } catch (e) {}
+        statusCode: io.HttpStatus.internalServerError,
+      );
+    } finally {}
   }
 }

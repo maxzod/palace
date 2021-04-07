@@ -42,8 +42,6 @@ class Palace {
     }
   }
 
-  List<Guard> get guards => _globalGuards;
-
   void all(
     String path,
     Handler handler, {
@@ -166,22 +164,19 @@ class Palace {
       final res = Response(ioReq);
 
       /// build list of guards
-      final guardsCount = guards.length + endpoint.guards.length;
+
+      final _reqGuards = [..._globalGuards, ...endpoint.guards];
+      print(_reqGuards.length);
       final queue = <Function>[];
 
-      for (var i = 0; i <= guardsCount; i++) {
-        queue.add(() {
-          if (i == guardsCount) {
-            /// last guard NEXT will call the endpoint handler
-            return () => endpoint.handler(req, res);
-          } else {
-            /// next will call the next guard
-            return () => guards[i](req, res, queue[i + 1]());
-          }
-        });
+      for (var i = 0; i <= _reqGuards.length; i++) {
+        if (i == _reqGuards.length) {
+          queue.add(() => endpoint.handler(req, res));
+        } else {
+          queue.add(() => _reqGuards[i](req, res, queue[i + 1]));
+        }
       }
-
-      await queue.first()();
+      await queue.first();
     } on BadRequest catch (e) {
       await Response(ioReq).badRequest(data: e.data);
     } catch (e, st) {
