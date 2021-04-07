@@ -15,8 +15,8 @@ void main() {
   });
 
   tearDown(() async {
-    if (await logsDirectory.exists()) await logsDirectory.delete();
     if (await logFile.exists()) await logFile.delete();
+    if (await logsDirectory.exists()) await logsDirectory.delete();
   });
   test('log errors', () async {
     final logsInString = StringBuffer();
