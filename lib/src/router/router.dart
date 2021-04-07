@@ -1,5 +1,6 @@
 import 'package:palace/palace.dart';
 import 'package:palace/src/exceptions/bad_request.dart';
+import 'package:palace/src/exceptions/imp_exception.dart';
 import 'package:palace/src/guards/body_parser.dart';
 import 'dart:async';
 import 'dart:io';
@@ -177,8 +178,12 @@ class Palace {
         }
       }
       await queue.first();
-    } on BadRequest catch (e) {
-      await Response(ioReq).badRequest(data: e.data);
+    } on PalaceException catch (e) {
+      // TODO :: Set up custom message for each exception
+      await Response(ioReq).json(
+        e.data ?? {},
+        statusCode: e.statusCode,
+      );
     } catch (e, st) {
       Logger.c(e, st: st);
       await Response(ioReq).internalServerError(exception: e);
