@@ -17,7 +17,7 @@ void main() {
     await router.closeGates();
   });
   test('home route', () async {
-    router.get('/', (req, res) => res.write('hello world'));
+    router.get('/', (req, res) => res.send('hello world'));
     final response = await _dio.get('/');
     expect(response.statusCode, HttpStatus.ok);
   });
@@ -31,12 +31,12 @@ void main() {
   });
 
   test('match with one segment', () async {
-    router.get('/users/:id', (req, res) => res.write('/users/:id'));
+    router.get('/users/:id', (req, res) => res.send('/users/:id'));
     final response = await _dio.get('/users/66');
     expect(response.data, equals('/users/:id'));
   });
   test('match path with tow segments', () async {
-    router.get('/users/:id/sub', (req, res) => res.write('/users/:id/sub'));
+    router.get('/users/:id/sub', (req, res) => res.send('/users/:id/sub'));
     final response = await _dio.get('/users/66/sub');
     expect(response.statusCode, HttpStatus.ok);
     expect(response.data, '/users/:id/sub');

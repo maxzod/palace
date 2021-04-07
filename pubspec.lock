@@ -196,7 +196,7 @@ packages:
       name: palace_body_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.0+1"
   palace_validators:
     dependency: "direct main"
     description:

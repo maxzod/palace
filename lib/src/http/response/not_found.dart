@@ -16,7 +16,7 @@ extension ResponseWithNotFound on Response {
     response.statusCode = io.HttpStatus.notFound;
 
     /// append the data to the response
-    await write(toJson(
+    await send(toJson(
       {
         'status_code': io.HttpStatus.notFound,
         'message': 'Not found',

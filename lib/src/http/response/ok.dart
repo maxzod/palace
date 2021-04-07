@@ -18,7 +18,7 @@ extension ResponseWithOk on Response {
     response.statusCode = io.HttpStatus.ok;
 
     /// append the data to the response
-    await write(toJson(
+    await send(toJson(
       {
         'status_code': io.HttpStatus.ok,
         'message': 'Ok',

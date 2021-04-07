@@ -18,7 +18,7 @@ extension ResponseWithCreated on Response {
     response.statusCode = io.HttpStatus.created;
 
     /// append the data to the response
-    await write(toJson(
+    await send(toJson(
       {
         'status_code': io.HttpStatus.created,
         'message': 'Created',

@@ -14,7 +14,7 @@ extension ResponseWithBadRequest on Response {
     response.statusCode = io.HttpStatus.badRequest;
 
     /// append the data to the response
-    await write(toJson(
+    await send(toJson(
       {
         'status_code': io.HttpStatus.badRequest,
         'message': 'Bad Request',

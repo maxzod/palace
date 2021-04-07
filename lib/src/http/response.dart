@@ -30,7 +30,7 @@ class Response {
 
   io.HttpResponse get response => request.response;
 
-  Future<void> write(Object data) async {
+  Future<void> send(Object data) async {
     _isClosed = true;
     response.write(data);
   }

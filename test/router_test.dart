@@ -23,7 +23,7 @@ void main() {
     expect(res.data, equals({'status_code': 404, 'message': 'Not found', 'data': 'custom not found handler msg'}));
   });
   test('all', () async {
-    router.all('/', (req, res) => res.write('hello world'));
+    router.all('/', (req, res) => res.send('hello world'));
     final responseGet = await _dio.get('/');
     expect(responseGet.data, equals('hello world'));
     final responsePost = await _dio.get('/');
@@ -34,18 +34,18 @@ void main() {
     expect(responseDELETE.data, equals('hello world'));
   });
   test('get', () async {
-    router.get('/', (req, res) => res.write('hello world'));
+    router.get('/', (req, res) => res.send('hello world'));
     final response = await _dio.get('/');
     expect(response.statusCode, HttpStatus.ok);
     expect(response.data, equals('hello world'));
   });
   test('match with one segment', () async {
-    router.get('/users/:id', (req, res) => res.write('/users/:id'));
+    router.get('/users/:id', (req, res) => res.send('/users/:id'));
     final response = await _dio.get('/users/66');
     expect(response.data, equals('/users/:id'));
   });
   test('match path with tow segments', () async {
-    router.get('/users/:id/sub', (req, res) => res.write('/users/:id/sub'));
+    router.get('/users/:id/sub', (req, res) => res.send('/users/:id/sub'));
     final response = await _dio.get('/users/66/sub');
     expect(response.statusCode, HttpStatus.ok);
     expect(response.data, '/users/:id/sub');

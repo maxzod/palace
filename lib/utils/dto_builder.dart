@@ -53,7 +53,7 @@ T buildDto<T>(dynamic body) {
         final rightType = field.type.reflectedType;
 
         /// will be caught by the main pipe inside the router class
-        throw BadRequest(data: '$fieldName must be $rightType');
+        throw BadRequest(data: ['$fieldName must be $rightType']);
       }
     }
 

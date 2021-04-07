@@ -13,6 +13,6 @@ extension ResponseWithJson on Response {
     response.statusCode = statusCode ?? defStatusCode;
 
     /// append the data to the response
-    await write(toJson(data));
+    await send(toJson(data));
   }
 }

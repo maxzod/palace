@@ -27,7 +27,7 @@ void main() {
   test('dato validation ', () async {
     router.post('/auth/sign_in', (req, res) async {
       final dto = req.validate<SignInDto>();
-      await res.write('email :${dto.email} , password:${dto.password}');
+      await res.send('email :${dto.email} , password:${dto.password}');
     });
 
     final inValidReqRes = await _dio.post('/auth/sign_in', data: {'email': 'queenpalace.kingdom', 'password': '123'});
@@ -47,7 +47,7 @@ void main() {
   test('IsOptionalDto validation ', () async {
     router.post('/auth/signup', (req, res) async {
       final dto = req.validate<IsOptionalDto>();
-      await res.write('email :${dto.email} , password:${dto.password}');
+      await res.send('email :${dto.email} , password:${dto.password}');
     });
     final validReqRes = await _dio.post('/auth/signup', data: {'email': 'queen@palace.kingdom', 'password': 'to_kingdom_secret'});
 

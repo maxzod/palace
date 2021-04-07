@@ -1,7 +1,5 @@
 # **`Queen Palace 🏰👑`**
 
-### [**`discord 🤝`**](https://discord.gg/pa4JVtDCqx)
-
 # Introduction
 
 - inside the palace 🏰 you have **`Guard`s** and **`Handler`s** to serve your **`Request`s** 😉
@@ -11,7 +9,6 @@
   - **middle-wares** but we preferrer to call them **`Guard`s** 💂‍♂️
   - **hot-reload** ⚡ => [`lighthouse`](https://github.com/maxzod/lighthouse)
   - **.yaml** file reader 🍨
-  <!-- - `final dbConn = await yaml<String>('DB_CONNECTION');` -->
 
 # Examples
 
