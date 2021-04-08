@@ -6,7 +6,9 @@ class BodyParser {
   void call(Request req, Response res, next) async {
     final parsedBody = await parser.parseBodyFromStream(
       req.request,
-      req.request.headers.contentType != null ? parser.MediaType.parse(req.request.headers.contentType.toString()) : null,
+      req.request.headers.contentType != null
+          ? parser.MediaType.parse(req.request.headers.contentType.toString())
+          : null,
       req.request.uri,
       storeOriginalBuffer: false,
     );

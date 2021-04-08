@@ -1,5 +1,4 @@
 import 'package:palace/palace.dart';
-import 'package:palace/src/exceptions/bad_request.dart';
 import 'package:palace/src/exceptions/imp_exception.dart';
 import 'package:palace/src/guards/body_parser.dart';
 import 'dart:async';
@@ -26,7 +25,8 @@ class Palace {
   set notFoundHandler(Handler h) => _notFoundHandler = h;
 
   /// get the not found handler id none was assigned it will return the defaults 404 handler;
-  Handler get notFoundHandler => _notFoundHandler ?? (Request req, Response res) => res.notFound();
+  Handler get notFoundHandler =>
+      _notFoundHandler ?? (Request req, Response res) => res.notFound();
 
   /// the server instance
   HttpServer? _server;
@@ -158,7 +158,11 @@ class Palace {
     /// * wait for incoming requests
     try {
       /// * look for desired endpoint
-      final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
+      final endpoint = match(ioReq.method, ioReq.uri.path) ??
+          EndPoint(
+              path: ioReq.uri.path,
+              method: ioReq.method,
+              handler: notFoundHandler);
 
       /// * create Place req form dart io req and the desired endpoint;
       final req = await Request.init(ioReq, endpoint);
@@ -167,7 +171,6 @@ class Palace {
       /// build list of guards
 
       final _reqGuards = [..._globalGuards, ...endpoint.guards];
-      print(_reqGuards.length);
       final queue = <Function>[];
 
       for (var i = 0; i <= _reqGuards.length; i++) {

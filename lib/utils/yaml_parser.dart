@@ -27,5 +27,7 @@ class _YamlParser {
   }
 }
 
-Future<bool> get isInProduction async => await _YamlParser.yaml<bool>('production') ?? false;
-Future<bool> get allowLogs async => await _YamlParser.yaml<bool>('allowLogs') ?? true;
+Future<bool> get isInProduction async =>
+    await _YamlParser.yaml<bool>('production') ?? false;
+Future<bool> get allowLogs async =>
+    await _YamlParser.yaml<bool>('allowLogs') ?? true;
