@@ -7,4 +7,5 @@ export 'json.dart';
 export 'not_found.dart';
 export 'ok.dart';
 export 'redirect.dart';
+export 'un_authorized.dart';
 export 'view.dart';

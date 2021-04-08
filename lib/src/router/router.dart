@@ -177,11 +177,7 @@ class Palace {
       }
       await queue.first();
     } on PalaceException catch (e) {
-      // TODO :: Set up custom message for each exception
-      await Response(ioReq).json(
-        e.data ?? {},
-        statusCode: e.statusCode,
-      );
+      await Response(ioReq).json(e.toMap(), statusCode: e.statusCode);
     } catch (e, st) {
       Logger.c(e, st: st);
       await Response(ioReq).internalServerError(exception: e);

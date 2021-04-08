@@ -16,4 +16,6 @@ abstract class PalaceException implements Exception {
     this.statusCode, {
     this.data,
   });
+
+  Map<String, dynamic> toMap();
 }

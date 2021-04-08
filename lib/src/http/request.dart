@@ -55,6 +55,9 @@ class Request {
   /// the request method
   String get method => request.method;
 
+  /// return the the request path
+  String get path => request.uri.path;
+
   /// to validate the wit dto
   /// ! `throw BadRequest exception`
   T validate<T>() {
