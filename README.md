@@ -5,26 +5,24 @@
 - inside the palace 🏰 you have **`Guard`s** and **`Handler`s** to serve your **`Request`s** 😉
 - batteries included 🔋
   - **validation** including (`DTO` **OR** `class`) validation ⚔
-  - **loggers** (console/file) 📃
+  - **loggers** (Console AND File) 📃
   - **middle-wares** but we preferrer to call them **`Guard`s** 💂‍♂️
   - **hot-reload** ⚡ => [`lighthouse`](https://github.com/maxzod/lighthouse)
   - **.yaml** file reader 🍨
 
-# Examples
+### [Here You Can Find The Examples Repository](https://github.com/maxzod/examples)
 
-[here you can find examples repository](https://github.com/maxzod/examples)
-
-# greet the queen app
+# Greet The Queen App
 
 ```dart
 Future<void> main(List<String> args) async {
-  final router = PalaceRouter();
-  router.get('/greet_the_queen', (req, res) => res.write('Long Live The Queen'));
-  await router.openGates();
+  final palace = Palace();
+  palace.get('/greet_the_queen', (req, res) => res.write('Long Live The Queen 👑'));
+  await palace.openGates();
 }
 ```
 
-## [you can find quick start guide here ⁉📇](https://maxzod.github.io/palace/)
+## [you can find quick start guide here ⁉📇](https://github.com/maxzod/palace/tree/master/../../../../../../doc/index.md)
 
 ## **`Core Parts`**
 
@@ -32,56 +30,67 @@ Future<void> main(List<String> args) async {
 
 type of functions that
 
-- return `Future` or `void`
 - takes tow arguments
-  - `Request` req
-  - `Response` res
 
-a handler will be triggered when a match happened between the incoming request and the endpoint registered path
+  - `Request` the incoming request
+  - `Response` the response to the incoming request
 
-## `Request`
+- return `FutureOr<void>`
 
-wrapper class around dart `HttpRequest`
-will contains wrappers around the `dart:io` `HttpRequest` class and the `httpRequest` itself
+a handler will be triggered when a match happened between the incoming request and the registered endpoint path and method
 
-## `Response`
+### `Request` class
 
-wrapper class around `dart:io` `HttpResponse`
-will have functions ease the process of responding to the incoming requests
-like
+wrapper class around `dart:io` `HttpRequest` with extra functions and getters to make your life easier.
+
+### `Response` class
+
+wrapper class around `dart:io` `HttpResponse` with extra functions and getters also to make the same life easier .
+
+some of these functions are
 
 - `res.json(data?)` will convert the given data to `JSON` and sent it back to the user
-- `res.file(path)`
+- `res.file(path)` give it path and it will give the file to the user
 - `res.notFound(data?)` => 404
 - `res.internalServerError(data?)` => 500
 - `res.accepted(data?)` => 200
 - `res.created(data?)` => 201
-- and so on....
 
-#### **if you respond to the request you will be ending the request life cycle this means guard still will be working but they can not modify the response any more**
+and so on....
 
-## `PalaceRouter`
+## `Palace` class
 
 - register routes and the handler for each route
-- register guards
+- use guards 'palace.use(CORSGuard())' for example,
 - open the server
 - close the server
 
 ### Middleware aka **`Guard`** 💂‍♂️
 
-type of functions that
+typedef of functions that
 
-- return `Future` or `void`
 - takes three arguments
 
   - `Request` req
   - `Response` res
   - `Function` next
 
-guards considered as extra layer before the Handlers layers
+- return `Future` or `void`
+- guards considered as extra layer before the Handlers layers
+- they can be registered for specific route or as global guard for any kind of requests
+- they can response to incoming requests since they have access to the incoming request
+- they can preform any kind of logic before or after the handler be triggered
 
-a guard can be registered for specific route or as global guard for any kind of requests
+# PalaceException class
 
-a guard can response to incoming requests since the have access to the instance of the incoming request
+you can throw them from any where from your application
+so guards can and handlers can or even the services can throw them
 
-a guard can preform any kind of logic before or after the handler be triggered
+but what will happened then ?
+the palace will catch the exception format it to json including the given data object - if one was provided -
+and end the request life cycle
+
+- here some of them
+- `BadRequest(data?)`
+- `NotFound(data?)`
+- `Unauthorized(data?)`

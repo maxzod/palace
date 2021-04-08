@@ -58,6 +58,12 @@ class Request {
   /// return the the request path
   String get path => request.uri.path;
 
+  /// return the httpSession from the io request
+  io.HttpSession get session => request.session;
+
+  /// return the cookies from the io request=
+  List<io.Cookie> get cookies => request.cookies;
+
   /// to validate the wit dto
   /// ! `throw BadRequest exception`
   T validate<T>() {

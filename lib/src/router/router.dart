@@ -135,7 +135,6 @@ class Palace {
   }) async {
     _bootstrap();
     ip ??= InternetAddress.anyIPv4.address;
-    // TODO :: Set the `enableLogs` to true by default in debug only
     if (enableLogs) {
       final tempGuards = [..._globalGuards];
       _globalGuards.clear();
