@@ -4,6 +4,7 @@ library palace;
 export 'package:palace/src/guards/logs_guard.dart';
 export 'package:palace/src/guards/cors_guard.dart';
 export 'package:palace/src/guards/static_file_guard.dart';
+export 'package:palace/src/guards/ip_filter.dart';
 
 /// `http` 🌍
 export 'package:palace/src/http/request.dart';
