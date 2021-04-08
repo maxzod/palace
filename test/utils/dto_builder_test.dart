@@ -8,7 +8,7 @@ void main() {
       final body = 'string as body';
       buildDto(body);
     } on BadRequest catch (e) {
-      expect(e.data, equals('body is not acceptable try to change the format'));
+      expect(e.data, equals(['body is not acceptable try to change the format']));
     }
   });
   test('invalid body with NULL values', () async {
