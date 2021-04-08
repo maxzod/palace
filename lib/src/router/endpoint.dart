@@ -4,8 +4,7 @@ import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace/palace.dart';
 
 typedef Handler = FutureOr<void> Function(Request req, Response res);
-typedef Guard = FutureOr<void> Function(
-    Request req, Response res, Function next);
+typedef Guard = FutureOr<void> Function(Request req, Response res, Function next);
 
 /// every `request` must have a `endpoint` ready to handle it
 /// else the `palace` will respond with `404`
@@ -37,6 +36,6 @@ class EndPoint {
 
   @override
   String toString() {
-    return 'method: $method ,path: $path ,guardsCount${guards.length}';
+    return 'method: $method ,path: $path ,guardsCount ${guards.length}';
   }
 }

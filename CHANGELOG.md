@@ -1,6 +1,7 @@
 ## 0.0.1+3
 
 - no more `palace.use(BodyParser());` its now powered by `palace_body_parser` out of the box 🎁
+- if you register to endpoint with same path end method this will throw exception and the server will not open
 - rename`res.write()` to `res.send()` ✏
 - more tests 🧪
 - fix ✅
