@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:palace/palace.dart';
 
 class Whitelisted {
-  void call(Request req, Response res, next) async {
+  void call(Request req, Response res, Function next) async {
     var whitelist = await addressWhitelist;
     if (whitelist!.contains(req.ip)) {
       return await next();
@@ -15,7 +15,7 @@ class Whitelisted {
 }
 
 class Blacklisted {
-  void call(Request req, Response res, next) async {
+  void call(Request req, Response res, Function next) async {
     var blacklist = await addressBlacklist;
     if (blacklist!.contains(req.ip)) {
       return await res.json(
