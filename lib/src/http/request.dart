@@ -62,6 +62,9 @@ class Request {
   /// return the cookies from the io request=
   List<io.Cookie> get cookies => request.cookies;
 
+  /// ip address of the request client
+  String get ip => request.connectionInfo!.remoteAddress.address;
+
   /// to validate the wit dto
   /// ! `throw BadRequest exception`
   T validate<T>() {

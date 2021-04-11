@@ -30,3 +30,11 @@ class _YamlParser {
 
 Future<bool> get isInProduction async => await _YamlParser.yaml<bool>('production') ?? false;
 Future<bool> get allowLogs async => await _YamlParser.yaml<bool>('allowLogs') ?? true;
+
+Future<List<String>?> get addressWhitelist async {
+  return await _YamlParser.yaml<YamlList>('whitelist').then((value) => value?.toList().cast());
+}
+
+Future<List<String>?> get addressBlacklist async {
+  return await _YamlParser.yaml<YamlList>('blacklist').then((value) => value?.toList().cast());
+}

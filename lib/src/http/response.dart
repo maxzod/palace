@@ -31,6 +31,8 @@ class Response {
 
   io.HttpResponse get response => request.response;
 
+  io.HttpHeaders get headers => response.headers;
+
   Future<void> send(Object data) async {
     _isClosed = true;
     response.write(data);
