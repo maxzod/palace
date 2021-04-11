@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:palace/palace.dart';
+import 'package:palace/src/decorators/handler_param.dart';
 
-class PublicFilesGuard {
+class PublicFilesGuard extends PalaceGuard {
   final String path;
   PublicFilesGuard({this.path = '/public'});
-  void call(Request req, Response res, next) async {
+  @override
+  void handle(Request req, Response res, @Next() next) async {
     final isToPublicFiles = req.method == 'GET' && _getNameFromPath(path) == _getNameFromPath(req.path);
     if (isToPublicFiles) {
       final file = File(req.path.replaceFirst('/', ''));

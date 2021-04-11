@@ -8,20 +8,13 @@ extension ResponseWithNotFound on Response {
   Future<void> notFound({
     Object? data,
   }) async {
-    /// set the Response contentType to Json
-    response.headers.contentType = io.ContentType.json;
-
-    /// set the status code to 404
-
-    response.statusCode = io.HttpStatus.notFound;
-
     /// append the data to the response
-    await send(toJson(
+    await json(
       {
         'status_code': io.HttpStatus.notFound,
         'message': 'Not found',
         if (data != null) 'data': data,
       },
-    ));
+    );
   }
 }

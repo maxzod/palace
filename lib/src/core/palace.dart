@@ -1,6 +1,9 @@
 import 'package:palace/palace.dart';
+import 'package:palace/src/core/chief_handler.dart';
 import 'package:palace/src/exceptions/imp_exception.dart';
 import 'package:palace/src/guards/body_parser.dart';
+import 'package:palace/src/core/collector.dart';
+import 'package:palace/src/types.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -13,25 +16,25 @@ class Palace {
 
   /// contains the registered guards [globally] from the `use` method
   /// `router.use`
-  final List<Guard> _globalGuards = [
+  final List<PalaceGuard> _globalGuards = [
     /// body parser is on by default
     BodyParser(),
   ];
 
   /// will be called in case of no match with any of the registered endpoints
-  Handler? _notFoundHandler;
+  Function? _notFoundHandler;
 
   /// set not found the handler
-  set notFoundHandler(Handler h) => _notFoundHandler = h;
+  set notFoundHandler(Function h) => _notFoundHandler = h;
 
   /// get the not found handler id none was assigned it will return the defaults 404 handler;
-  Handler get notFoundHandler => _notFoundHandler ?? (Request req, Response res) => res.notFound();
+  Function get notFoundHandler => _notFoundHandler ?? (Request req, Response res) => res.notFound();
 
   /// the server instance
   HttpServer? _server;
 
   /// assign `Guard` to work globally `on any request with any method`
-  void use(Guard guard) => _globalGuards.add(guard);
+  void use(PalaceGuard guard) => _globalGuards.add(guard);
 
   EndPoint? match(String method, String path) {
     // TODO :: find a Better way this will perform badly when many routers exist 'BigO'
@@ -42,10 +45,29 @@ class Palace {
     }
   }
 
+  void controllers(List<PalaceController> controllers) {
+    final collector = Collector(controllers, this);
+    collector.collect();
+  }
+
+  void register({
+    required Function handler,
+    required String path,
+    required String method,
+    required List<PalaceGuard> guards,
+  }) {
+    _endpoints.add(EndPoint(
+      path: path,
+      method: method,
+      handler: handler,
+      guards: guards,
+    ));
+  }
+
   void all(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) {
     _endpoints.add(EndPoint(
       path: path,
@@ -57,8 +79,8 @@ class Palace {
 
   void get(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -69,8 +91,8 @@ class Palace {
 
   void post(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -81,8 +103,8 @@ class Palace {
 
   void put(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -92,8 +114,8 @@ class Palace {
       ));
   void patch(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -103,8 +125,8 @@ class Palace {
       ));
   void delete(
     String path,
-    Handler handler, {
-    List<Guard> guards = const [],
+    Function handler, {
+    List<PalaceGuard> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -134,11 +156,15 @@ class Palace {
     bool enableLogs = true,
   }) async {
     _bootstrap();
+    // await PalaceDB.init();
     ip ??= InternetAddress.anyIPv4.address;
     if (enableLogs) {
       final tempGuards = [..._globalGuards];
       _globalGuards.clear();
-      _globalGuards.addAll([LogsGuard(), ...tempGuards]);
+      _globalGuards.addAll([
+        // LogsGuard(),
+        ...tempGuards,
+      ]);
     }
     await _server?.close(force: true);
 
@@ -169,11 +195,20 @@ class Palace {
 
       for (var i = 0; i <= _reqGuards.length; i++) {
         if (i == _reqGuards.length) {
-          queue.add(() => endpoint.handler(req, res));
+          queue.add(() => chiefHandler(req, res, endpoint.handler, null));
         } else {
-          queue.add(() => _reqGuards[i](req, res, queue[i + 1]));
+          queue.add(() => chiefHandler(req, res, _reqGuards[i].handle, queue[i + 1]));
         }
       }
+      print(_reqGuards);
+      print(queue);
+      // for (var i = 0; i <= _reqGuards.length; i++) {
+      //   if (i == _reqGuards.length) {
+      //     queue.add(() => endpoint.handler(req, res));
+      //   } else {
+      //     queue.add(() => _reqGuards[i].handle(req, res, queue[i + 1]));
+      //   }
+      // }
       await queue.first();
     } on PalaceException catch (e) {
       await Response(ioReq).json(e.toMap(), statusCode: e.statusCode);
