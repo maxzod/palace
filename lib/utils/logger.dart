@@ -7,7 +7,6 @@ import 'package:path/path.dart';
 
 abstract class _Logger {
   static final _red = AnsiPen()..red(bold: true);
-  static final _white = AnsiPen()..white(bold: true);
   static final _yellow = AnsiPen()..yellow(bold: true);
   static final _blue = AnsiPen()..blue(bold: true);
 
@@ -17,10 +16,6 @@ abstract class _Logger {
 
   static void blue(Object msg) {
     print(_Logger._blue(msg));
-  }
-
-  static void white(Object msg) {
-    print(_Logger._white(msg));
   }
 
   static void yellow(Object msg) {
@@ -74,7 +69,7 @@ class Logger {
   /// log the error to the console only
   static String c(Object e, {StackTrace? st, AnsiPen? color}) {
     final _msg = 'LOG : [${dt.toIso8601String()}] $e ${st != null ? '\n $st' : ''}';
-
+    print(_msg);
     return _msg;
   }
 

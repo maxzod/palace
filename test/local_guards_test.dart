@@ -20,13 +20,7 @@ void main() {
     router.get('/', (req, res) {
       res.send('ahmed');
       print(req.body);
-    }, guards: [
-      (req, res, next) {
-        print('help');
-        req.body['ahmed'] = 'aa';
-        next();
-      },
-    ]);
+    }, guards: []);
 
     final response = await _dio.get('/');
     print(response.data);

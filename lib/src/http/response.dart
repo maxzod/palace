@@ -1,5 +1,6 @@
-import 'dart:convert';
 import 'dart:io' as io;
+
+import 'package:palace/utils/json_encoder.dart';
 
 /// * contains getters and logic to respond to incoming req
 ///
@@ -39,7 +40,7 @@ class Response {
 
   String toJson(Object data) {
     try {
-      return data is String ? data : jsonEncode(data);
+      return palaceJsonEncoder(data);
     } catch (e) {
       return data.toString();
     }

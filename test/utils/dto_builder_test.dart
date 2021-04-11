@@ -1,5 +1,5 @@
 import 'package:palace/palace.dart';
-import 'package:palace/utils/dto_builder.dart';
+import 'package:palace/utils/dto/dto_builder.dart';
 import 'package:test/test.dart';
 
 void main() {

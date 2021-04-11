@@ -11,19 +11,16 @@ extension ResponseWithAccepted on Response {
   Future<void> accepted({
     Object? data,
   }) async {
-    /// set the Response contentType to Json
-    response.headers.contentType = io.ContentType.json;
-
     /// set the status code
     response.statusCode = io.HttpStatus.accepted;
 
     /// append the data to the response
-    await send(toJson(
+    await json(
       {
         'status_code': io.HttpStatus.accepted,
         'message': 'Accepted',
         if (data != null) 'data': data,
       },
-    ));
+    );
   }
 }

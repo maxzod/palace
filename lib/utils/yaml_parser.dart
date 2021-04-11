@@ -5,6 +5,7 @@ import 'package:yaml/yaml.dart';
 /// load and extract yaml file attribute by the parent key
 Future<T?> yaml<T>(String key) async => _YamlParser.yaml<T>(key);
 
+//  TODO :: REMOVE ASYNC AWAIT
 class _YamlParser {
   /// the formatted content of the yaml file
   static dynamic? _yaml;
@@ -27,16 +28,13 @@ class _YamlParser {
   }
 }
 
-Future<bool> get isInProduction async =>
-    await _YamlParser.yaml<bool>('production') ?? false;
-Future<bool> get allowLogs async =>
-    await _YamlParser.yaml<bool>('allowLogs') ?? true;
+Future<bool> get isInProduction async => await _YamlParser.yaml<bool>('production') ?? false;
+Future<bool> get allowLogs async => await _YamlParser.yaml<bool>('allowLogs') ?? true;
+
 Future<List<String>?> get addressWhitelist async {
-  return await _YamlParser.yaml<YamlList>('whitelist')
-      .then((value) => value?.toList().cast());
+  return await _YamlParser.yaml<YamlList>('whitelist').then((value) => value?.toList().cast());
 }
 
 Future<List<String>?> get addressBlacklist async {
-  return await _YamlParser.yaml<YamlList>('blacklist')
-      .then((value) => value?.toList().cast());
+  return await _YamlParser.yaml<YamlList>('blacklist').then((value) => value?.toList().cast());
 }

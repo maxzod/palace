@@ -11,19 +11,16 @@ extension ResponseWithOk on Response {
   Future<void> ok({
     Object? data,
   }) async {
-    /// set the Response contentType to Json
-    response.headers.contentType = io.ContentType.json;
-
     /// set the status code
     response.statusCode = io.HttpStatus.ok;
 
     /// append the data to the response
-    await send(toJson(
+    await json(
       {
         'status_code': io.HttpStatus.ok,
         'message': 'Ok',
         if (data != null) 'data': data,
       },
-    ));
+    );
   }
 }

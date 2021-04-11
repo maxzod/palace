@@ -11,19 +11,16 @@ extension ResponseWithCreated on Response {
   Future<void> created({
     Object? data,
   }) async {
-    /// set the Response contentType to Json
-    response.headers.contentType = io.ContentType.json;
-
     /// set the status code
     response.statusCode = io.HttpStatus.created;
 
     /// append the data to the response
-    await send(toJson(
+    await json(
       {
         'status_code': io.HttpStatus.created,
         'message': 'Created',
         if (data != null) 'data': data,
       },
-    ));
+    );
   }
 }

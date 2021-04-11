@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:palace/palace.dart';
 
 extension ResponseWithJson on Response {
@@ -6,6 +7,8 @@ extension ResponseWithJson on Response {
     Object data, {
     int? statusCode,
   }) async {
+    print('json');
+
     /// set the Response contentType to Json
     response.headers.contentType = ContentType.json;
 
