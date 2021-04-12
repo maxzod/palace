@@ -24,9 +24,8 @@ void chiefHandler(
     callParamValues.add(_getParam(param, req, res, call, next));
   }
   final callInstanceMirror = reflect(call);
-  print('before');
+  
   callInstanceMirror.invoke(#call, callParamValues);
-  print('after');
 }
 
 dynamic _getParam(
@@ -39,7 +38,8 @@ dynamic _getParam(
   if (param.type.isSubtypeOf(reflectClass(Request))) return req;
   if (param.type.isSubtypeOf(reflectClass(Response))) return res;
   if (param.metadata.isNotEmpty) {
-    final deco = param.metadata.firstWhere((e) => e.reflectee is PalaceParamDecorator);
+    final deco =
+        param.metadata.firstWhere((e) => e.reflectee is PalaceParamDecorator);
     if (deco.reflectee is Body) {
       return validateDto(req.body, dto: deco.reflectee);
     } else if (deco.reflectee is Next) {

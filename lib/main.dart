@@ -14,6 +14,7 @@
 
 import 'package:palace/palace.dart';
 import 'package:palace/src/decorators/http_method.dart';
+import 'package:palace/src/decorators/use_guard.dart';
 import 'package:palace/src/types.dart';
 import 'package:palace_validators/palace_validators.dart';
 
@@ -32,12 +33,22 @@ class UsersController extends PalaceController {
   // void findOne(Request req, Response res, @Body() SignUpDto body) {
   //   print('this will be called when POST => /users');
   // }
-
+  @UseGuard(CorsGuard())
   @Get()
+
+  
   // @UseGuard(LogsGuard())
   void deleteOne(Request req, Response res) {
     print('this will be called when GET => /users');
     res.json('data');
+  }
+
+  @UseGuard(CorsGuard())
+  @Post()
+  void ddd(Request req, Response res) {
+    //anything can work unless he doesn't serve any response
+    res.json({'data': 'Sent'});
+    // any other res/req handling after this wont work
   }
 }
 

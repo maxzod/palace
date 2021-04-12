@@ -7,13 +7,12 @@ extension ResponseWithJson on Response {
     Object data, {
     int? statusCode,
   }) async {
-    print('json');
 
     /// set the Response contentType to Json
-    response.headers.contentType = ContentType.json;
+    // response.headers.contentType = ContentType.json;
 
     /// set the default status code
-    response.statusCode = statusCode ?? defStatusCode;
+    // response.statusCode = statusCode ?? defStatusCode;
 
     /// append the data to the response
     await send(toJson(data));
