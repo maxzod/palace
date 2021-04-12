@@ -36,6 +36,7 @@ class Response {
   Future<void> send(Object data) async {
     _isClosed = true;
     response.write(data);
+    await response.close();
   }
 
   String toJson(Object data) {

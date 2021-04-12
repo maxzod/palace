@@ -200,8 +200,7 @@ class Palace {
           queue.add(() => chiefHandler(req, res, _reqGuards[i].handle, queue[i + 1]));
         }
       }
-      print(_reqGuards);
-      print(queue);
+    
       // for (var i = 0; i <= _reqGuards.length; i++) {
       //   if (i == _reqGuards.length) {
       //     queue.add(() => endpoint.handler(req, res));
@@ -217,7 +216,7 @@ class Palace {
       await Response(ioReq).internalServerError(exception: e);
     } finally {
       ///  Close the req
-      await ioReq.response.close();
+      //await ioReq.response.close();
     }
   }
 

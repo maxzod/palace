@@ -37,7 +37,7 @@ class Request {
   set body(b) => _body = b;
 
   /// the request body
-  Map<String, dynamic> get body => _body ?? request.uri.data;
+  Map<dynamic, dynamic> get body => _body ?? request.uri.data;
 
   /// ? getter part
   late Map<String, dynamic> params;
