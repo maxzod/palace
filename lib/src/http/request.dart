@@ -32,12 +32,7 @@ class Request {
     required this.queryParams,
   });
 
-  dynamic? _body;
-
-  set body(b) => _body = b;
-
-  /// the request body
-  Map<dynamic, dynamic> get body => _body ?? request.uri.data;
+  late Map<String, dynamic> body;
 
   /// ? getter part
   late Map<String, dynamic> params;

@@ -2,6 +2,8 @@ import 'dart:io' as io;
 
 import 'package:palace/utils/json_encoder.dart';
 
+import '../../palace.dart';
+
 /// * contains getters and logic to respond to incoming req
 ///
 ///
@@ -43,6 +45,7 @@ class Response {
     try {
       return palaceJsonEncoder(data);
     } catch (e) {
+      Logger.c(e);
       return data.toString();
     }
   }
