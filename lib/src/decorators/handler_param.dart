@@ -22,19 +22,3 @@ class Query extends OneKeyDecorator {
 class Param extends OneKeyDecorator {
   const Param([String key = '']) : super(key);
 }
-
-// class Req extends PalaceParamDecorator {
-//   const Req();
-// }
-
-// class Res extends PalaceParamDecorator {
-//   const Res();
-// }
-
-// class Request extends PalaceParamDecorator {
-//   const Request();
-// }
-
-// class Response extends PalaceParamDecorator {
-//   const Response();
-// }

@@ -1,45 +1,48 @@
 # **`Queen Palace 🏰👑`**
 
-server side dart micro-framework to handle incoming http requests
-
 # Introduction
 
-- inside the palace 🏰 you have **`Guard`s** and **`Handler`s** to serve your **`Request`s** 😉
-- batteries included 🔋
-  - **validation** including (`DTO` **OR** `class`) validation ⚔
-  - **loggers** (Console AND File) 📃
-  - **middle-wares** but we preferrer to call them **`Guard`s** 💂‍♂️
-  - **hot-reload** ⚡ => [`lighthouse`](https://github.com/maxzod/lighthouse)
-  - **.yaml** file reader 🍨
+server side dart micro-framework to handle incoming http requests
 
-### [Here You Can Find The Examples Repository](https://github.com/maxzod/examples)
-
-# Greet The Queen App
+## hello world app
 
 ```dart
 Future<void> main(List<String> args) async {
   final palace = Palace();
-  palace.get('/greet_the_queen', (req, res) => res.write('Long Live The Queen 👑'));
+  palace.get('/greet_the_queen', (req, res) => res.send('Long Live The Queen 👑'));
   await palace.openGates();
 }
 ```
 
-## [you can find quick start guide here ⁉📇](https://github.com/maxzod/palace/tree/master/../../../../../../doc/index.md)
+## hello world with decoration
+
+decoration will help you split your code to parts or modules easily making the application easy to maintain
+
+```dart
+void main(List<String> args) async {
+  final palace = Palace();
+  palace.controllers([MainController()]);
+  await palace.openGates();
+}
+
+class MainController extends PalaceController {
+  MainController() : super('/');
+
+  @Get()
+  void greeTheQueen(Request req, Response res) {
+    return res.send('Long Live The Queen 👑');
+  }
+}
+```
 
 ## **`Core Parts`**
 
-## **`Handler`**
+## `Palace` class
 
-type of functions that
-
-- takes tow arguments
-
-  - `Request` the incoming request
-  - `Response` the response to the incoming request
-
-- return `FutureOr<void>`
-
-a handler will be triggered when a match happened between the incoming request and the registered endpoint path and method
+- register routes and the call back for each route
+- use guards 'palace.use(CORSGuard())' for example
+- open the server
+- close the server
 
 ### `Request` class
 
@@ -60,24 +63,12 @@ some of these functions are
 
 and so on....
 
-## `Palace` class
-
-- register routes and the handler for each route
-- use guards 'palace.use(CORSGuard())' for example,
-- open the server
-- close the server
-
 ### Middleware aka **`Guard`** 💂‍♂️
 
-typedef of functions that
+a simple function
 
-- takes three arguments
-
-  - `Request` req
-  - `Response` res
-  - `Function` next
-
-- return `Future` or `void`
+- return `void`
+- takes any parameters you want starting from 0 parameters or the entire parameters list (see the parameters list down below)
 - guards considered as extra layer before the Handlers layers
 - they can be registered for specific route or as global guard for any kind of requests
 - they can response to incoming requests since they have access to the incoming request
@@ -96,3 +87,54 @@ and end the request life cycle
 - `BadRequest(data?)`
 - `NotFound(data?)`
 - `Unauthorized(data?)`
+
+## **`Callback Parameters`**
+
+if you are using the decoration you can get extra push to your endpoint callback or the guards
+you can extract these type of data from the incoming request
+
+- without decorations you can get access to the incoming request or the response by declaring the type of them
+
+```dart
+  @Get()
+  void sayHi(Request req,Response Res) {
+    //logic
+    }
+```
+
+need to aces the request body directly and strong typed ?
+use `@Body()` decorator
+
+```dart
+class SignUpBody{
+  late String name;
+  late String email;
+  late String password;
+}
+  @Post()
+  void signUp(Request req,Response Res,@Body() SignUpBody body) {
+    //logic
+    }
+```
+
+need to access specific value from the body ?
+
+```dart
+@Body('key') String email
+```
+
+the same goes for
+
+```dart
+@Query()
+@QueryParam()
+@Param()
+```
+
+if you are building a guard use
+
+```dart
+@Next()
+```
+
+to get access to the next callback
