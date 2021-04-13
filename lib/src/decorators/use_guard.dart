@@ -1,13 +1,11 @@
-import 'package:palace/palace.dart';
-
 class UseGuard {
-  final PalaceGuard guard;
+  final Function guard;
 
   const UseGuard(this.guard);
 }
 
 class UseGuards {
-  final List<PalaceGuard> guards;
+  final List<Function> guards;
 
   const UseGuards(this.guards);
 }

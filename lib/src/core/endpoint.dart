@@ -1,22 +1,20 @@
 import 'dart:async';
 
-import 'package:palace/src/decorators/handler_param.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace/palace.dart';
 
-// typedef Handler = FutureOr<void> Function;
 typedef Handler = FutureOr<void> Function(Request req, Response res);
-typedef GuardArgs = FutureOr<void> Function(Request req, Response res, @Next() Function next);
+// typedef GuardArgs = FutureOr<void> Function(Request req, Response res, @Next() Function next);
 
 /// every `request` must have a `endpoint` ready to handle it
-/// else the `palace` will respond with `404`
+/// else the `palace` will respond with `res.notFoundHandler()` `404`
 /// each endpoint has its own
 /// `method`
 class EndPoint {
   final String path;
   final String method;
-  final Function handler;
-  final List<PalaceGuard> guards;
+  final Handler handler;
+  final List<Function> guards;
 
   const EndPoint({
     required this.path,

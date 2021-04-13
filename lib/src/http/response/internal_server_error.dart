@@ -9,17 +9,15 @@ extension ResponseWithInternalServerError on Response {
     Object? data,
     Object? exception,
   }) async {
-    try {
-      await json(
-        {
-          'status_code': io.HttpStatus.internalServerError,
-          'message': 'Internal Server Error',
-          if (data != null) 'data': data,
-          if (exception != null) 'exception': exception
-          // if (exception != null && !isInProduction) 'exception': exception
-        },
-        statusCode: io.HttpStatus.internalServerError,
-      );
-    } finally {}
+    await json(
+      {
+        'status_code': io.HttpStatus.internalServerError,
+        'message': 'Internal Server Error',
+        if (data != null) 'data': data,
+        if (exception != null) 'exception': exception
+        // if (exception != null && !isInProduction) 'exception': exception
+      },
+      statusCode: io.HttpStatus.internalServerError,
+    );
   }
 }

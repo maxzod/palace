@@ -12,21 +12,31 @@ void main() {
     }
   });
   test('invalid body with NULL values', () async {
-    final body = {'name': 'ahmed'};
-    final dto = buildDto<SimpleDto2>(body);
-    expect(dto.name, equals('ahmed'));
-    expect(dto.email, null);
+    try {
+      final body = {'name': 'ahmed'};
+      buildDto<SimpleDto2>(body);
+    } catch (e) {
+      expect(e, isA<BadRequest>());
+    }
   });
   test('valid body', () async {
-    final body = {'name': 'ahmed'};
-    final dto = buildDto<SimpleDto>(body);
-    expect(dto.name, equals('ahmed'));
+    try {
+      final body = {'name': 'ahmed'};
+      final dto = buildDto<SimpleDto>(body);
+      expect(dto.name, equals('ahmed'));
+    } on BadRequest catch (e) {
+      print(e.data);
+    }
   });
   test('nullable values', () async {
-    final body = {'name': 'ahmed'};
-    final dto = buildDto<NullAbleDto>(body);
-    expect(dto.name, equals('ahmed'));
-    expect(dto.email, equals(null));
+    try {
+      final body = {'name': 'ahmed'};
+      final dto = buildDto<NullAbleDto>(body);
+      expect(dto.name, equals('ahmed'));
+      expect(dto.email, equals(null));
+    } on BadRequest catch (e) {
+      print(e.data);
+    }
   });
 }
 

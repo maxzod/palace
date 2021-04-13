@@ -35,10 +35,10 @@ class Response {
 
   io.HttpHeaders get headers => response.headers;
 
-  Future<void> send(Object data) async {
+  void send(Object data) {
     _isClosed = true;
     response.write(data);
-    await response.close();
+    // await response.close();
   }
 
   String toJson(Object data) {

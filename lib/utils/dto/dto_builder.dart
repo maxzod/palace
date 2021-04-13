@@ -3,7 +3,7 @@ import 'dart:mirrors';
 import 'package:palace/palace.dart';
 import 'package:palace_validators/palace_validators.dart';
 
-Object initDto(Object dto, Map<String, dynamic> body) {
+Object initDto(Object dto, dynamic body) {
   /// new instance of the reflected class
   final dtoMirror = reflect(dto);
 
@@ -56,12 +56,13 @@ T buildDto<T>(dynamic body) {
     /// create new dto instance from generic type
     final dtoReflection = dtoClassRef.newInstance(Symbol.empty, []);
 
-    final dto = initDto(dtoReflection, body);
+    final dto = initDto(dtoReflection.reflectee, body);
 
     return dto as T;
   } on BadRequest {
     rethrow;
   } catch (e) {
+    print(e);
     throw BadRequest(data: ['body is not acceptable try to change the format']);
   }
 }

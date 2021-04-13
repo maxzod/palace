@@ -6,19 +6,21 @@ class Next extends PalaceParamDecorator {
   const Next();
 }
 
-class Body extends PalaceParamDecorator {
+abstract class OneKeyDecorator extends PalaceParamDecorator {
   final String key;
-  const Body([this.key = '']);
+  const OneKeyDecorator([this.key = '']);
 }
 
-class Query extends PalaceParamDecorator {
-  final String key;
-  const Query([this.key = '']);
+class Body extends OneKeyDecorator {
+  const Body([String key = '']) : super(key);
 }
 
-class Param extends PalaceParamDecorator {
-  final String key;
-  const Param([this.key = '']);
+class Query extends OneKeyDecorator {
+  const Query([String key = '']) : super(key);
+}
+
+class Param extends OneKeyDecorator {
+  const Param([String key = '']) : super(key);
 }
 
 // class Req extends PalaceParamDecorator {

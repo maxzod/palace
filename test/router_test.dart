@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Response;
 import 'package:palace/palace.dart';
 import 'package:test/test.dart';
 
 void main() {
   late Palace router;
 
-  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:3000', followRedirects: true, validateStatus: (_) => true));
+  final _dio =
+      Dio(BaseOptions(baseUrl: 'http://localhost:3000', followRedirects: true, validateStatus: (_) => true, contentType: 'application/json'));
 
   setUp(() async {
     router = Palace();

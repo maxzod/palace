@@ -127,13 +127,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  http_server:
-    dependency: transitive
-    description:
-      name: http_server
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   io:
     dependency: transitive
     description:
@@ -204,13 +197,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  palace_body_parser:
-    dependency: "direct main"
-    description:
-      name: palace_body_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0+1"
   palace_validators:
     dependency: "direct main"
     description:

@@ -34,7 +34,6 @@ void main() {
     router!.use(PublicFilesGuard(path: '/test/public'));
     final res = await _dio.get('/test/public/background.png');
     expect(res.statusCode, equals(HttpStatus.ok));
-    print(res.data);
   });
   test('if files exist <sub-folder> it will return it', () async {
     router!.use(PublicFilesGuard(path: '/test/public'));

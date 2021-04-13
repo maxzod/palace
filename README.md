@@ -1,5 +1,7 @@
 # **`Queen Palace 🏰👑`**
 
+server side dart micro-framework to handle incoming http requests
+
 # Introduction
 
 - inside the palace 🏰 you have **`Guard`s** and **`Handler`s** to serve your **`Request`s** 😉

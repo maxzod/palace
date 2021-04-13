@@ -1,12 +1,11 @@
 library palace;
 
-///   `Guards` 💂‍♂️ aka middleware`s
+/// * `Guards` 💂‍♂️ aka middleware`s
 export 'package:palace/src/guards/logs_guard.dart';
 export 'package:palace/src/guards/cors_guard.dart';
 export 'package:palace/src/guards/static_file_guard.dart';
-export 'package:palace/src/guards/imp.dart';
 
-/// `http` 🌍
+/// ? `http` 🌍
 export 'package:palace/src/http/request.dart';
 export 'package:palace/src/http/response.dart';
 export 'package:palace/src/http/response/index.dart';

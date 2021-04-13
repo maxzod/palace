@@ -9,12 +9,10 @@ extension ResponseWithNotFound on Response {
     Object? data,
   }) async {
     /// append the data to the response
-    await json(
-      {
-        'status_code': io.HttpStatus.notFound,
-        'message': 'Not found',
-        if (data != null) 'data': data,
-      },
-    );
+    await json({
+      'status_code': io.HttpStatus.notFound,
+      'message': 'Not found',
+      if (data != null) 'data': data,
+    }, statusCode: HttpStatus.notFound);
   }
 }

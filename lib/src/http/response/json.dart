@@ -11,10 +11,10 @@ extension ResponseWithJson on Response {
     /// set the Response contentType to Json
     response.headers.contentType = ContentType.json;
 
-    /// set the default status code
-    // response.statusCode = statusCode ?? defStatusCode;
+    // / set the default status code
+    response.statusCode = statusCode ?? defStatusCode;
 
     /// append the data to the response
-    await send(toJson(data));
+    send(toJson(data));
   }
 }

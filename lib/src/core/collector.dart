@@ -1,4 +1,5 @@
 import 'package:palace/palace.dart';
+import 'package:palace/src/core/chief_handler.dart';
 import 'package:palace/src/decorators/http_method.dart';
 import 'package:palace/src/decorators/use_guard.dart';
 import '../types.dart';
@@ -48,12 +49,12 @@ class Collector {
       final _endPointGuards = _extractEndpointGuards(value);
 
       /// guards
-      final _guards = <PalaceGuard>[...controller.guards, ..._endPointGuards];
+      final _guards = <Function>[...controller.guards, ..._endPointGuards];
 
       /// no need to check for duplicate since openGates(); do it any way
-      for (final _methodMirror in _endPointMethods) {
+      for (final _httpMethodMirror in _endPointMethods) {
         /// the method decorator instance
-        final _methodDecorator = _methodMirror.reflectee as HttpMethodDecorator;
+        final _methodDecorator = _httpMethodMirror.reflectee as HttpMethodDecorator;
 
         /// the http method name might be 'GET' or 'PUT' or 'post' and so on
         final _method = _methodDecorator.method;
@@ -61,15 +62,20 @@ class Collector {
         /// the endpoint path
         /// the condition to fix common miss understanding
         final _path = _methodDecorator.path == '/' ? '' : _methodDecorator.path;
+        final _functionMirror = _controllerReflection.getField(value.simpleName);
+        _validateHandler(
+          _functionMirror.getField(#call).type as FunctionTypeMirror,
+          MirrorSystem.getName(_controllerReflection.type.simpleName),
+        );
 
         /// the endpoint handler
-        final _handler = _controllerReflection.getField(value.simpleName).reflectee;
+        final _handler = _functionMirror.reflectee;
 
         /// register the reflected variables from the mirrors
         palace.register(
           /// append the endpoint path to the controller path
           path: '${controller.path + (_path.isEmpty ? '' : _path)}',
-          handler: _handler,
+          handler: (req, res) => chiefHandler(req, res, _handler, null).onError((e, st) => throw e!),
           method: _method,
           guards: _guards,
         );
@@ -115,15 +121,42 @@ class Collector {
   }
 
   /// extract the guards from the decorator
-  List<PalaceGuard> _extractEndpointGuards(MethodMirror methodMirror) {
-    final _guards = <PalaceGuard>[];
+  List<Function> _extractEndpointGuards(MethodMirror methodMirror) {
+    final _guards = <Function>[];
     for (final meta in methodMirror.metadata.where((d) => d.reflectee is UseGuard || d.reflectee is UseGuards)) {
       if (meta.reflectee is UseGuard) {
-        _guards.add((meta.reflectee as UseGuard).guard);
+        _guards.add((meta.reflectee as UseGuard).guard.call);
       } else if (meta.reflectee is UseGuards) {
-        _guards.addAll((meta.reflectee as UseGuards).guards);
+        _guards.addAll((meta.reflectee as UseGuards).guards.map((e) => e.call));
       }
     }
+    print(_guards);
     return _guards;
+  }
+
+  void _validateHandler(FunctionTypeMirror mirror, String controllerName) {
+    /// no named parameters
+    // TODO(2) :: get the real name
+    final currentMethodName = MirrorSystem.getName(mirror.simpleName);
+    for (final param in mirror.parameters) {
+      final currentParamName = MirrorSystem.getName(param.simpleName);
+
+      if (param.isNamed) {
+        throw '''
+        [palace][collector:$controllerName] $currentMethodName cant have any named parameters
+        but you give it $currentParamName fix it !
+        ''';
+      } else if (param.isOptional) {
+        throw '''
+        [palace][collector:$controllerName] $currentMethodName cant have any optional parameters
+        but you give it $currentParamName fix it !
+        ''';
+      } else if (param.type.reflectedType == dynamic) {
+        throw '''
+        [palace][collector:$controllerName] $currentMethodName cant have any dynamic parameters
+        but you give it $currentParamName give it a type it !
+        ''';
+      }
+    }
   }
 }

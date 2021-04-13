@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Response;
 import 'package:palace/palace.dart';
 import 'package:test/test.dart';
 

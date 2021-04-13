@@ -1,15 +1,14 @@
-import 'package:palace/utils/dto/dto_builder.dart';
 import 'package:palace_validators/dto_validator.dart' as palace_validators;
 
 import '../../palace.dart';
 
 /// ! `throw BadRequest exception`
-dynamic validateDto<T>(Map<dynamic, dynamic> body, {Object? dto}) {
+Object validateDto(Object dto) {
   /// build dto from the request body
-  final _dto = dto ?? buildDto<T>(body);
+  final _dto = dto;
 
   /// validate the dto
-  final errs = palace_validators.validateDto(_dto as Object);
+  final errs = palace_validators.validateDto(_dto);
 
   /// in case of any failure throw exception
   if (errs.isNotEmpty) {
@@ -17,5 +16,10 @@ dynamic validateDto<T>(Map<dynamic, dynamic> body, {Object? dto}) {
   }
 
   /// else every thing is fine return the dto
-  return _dto as dynamic;
+  return _dto;
 }
+
+// Object buildAndValidateDto(Map<String, dynamic> body, Type t) {
+//   final dto = buildDto(body, t);
+//   return validateDto(dto);
+// }

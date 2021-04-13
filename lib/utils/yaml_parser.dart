@@ -5,7 +5,6 @@ import 'package:yaml/yaml.dart';
 /// load and extract yaml file attribute by the parent key
 Future<T?> yaml<T>(String key) async => _YamlParser.yaml<T>(key);
 
-//  TODO :: REMOVE ASYNC AWAIT
 class _YamlParser {
   /// the formatted content of the yaml file
   static dynamic? _yaml;

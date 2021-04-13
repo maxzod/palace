@@ -1,8 +1,6 @@
-import 'package:palace/palace.dart';
-
 abstract class PalaceController {
   final String path;
-  final List<PalaceGuard> guards;
+  final List<Function> guards;
   PalaceController(
     this.path, {
     this.guards = const [],

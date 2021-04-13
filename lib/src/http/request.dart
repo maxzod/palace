@@ -1,10 +1,9 @@
 import 'dart:io' as io;
 
-import 'package:palace/utils/dto/dto_validator.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace/palace.dart';
 
-///* contains simplified logic to extract data from the io req class
+/// * contains simplified logic to extract data from the io req class
 class Request {
   final io.HttpRequest request;
 
@@ -59,10 +58,4 @@ class Request {
 
   /// ip address of the request client
   String get ip => request.connectionInfo!.remoteAddress.address;
-
-  /// to validate the wit dto
-  /// ! `throw BadRequest exception`
-  T validate<T>() {
-    return validateDto<T>(body);
-  }
 }
