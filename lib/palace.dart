@@ -15,7 +15,6 @@ export 'package:palace/src/core/endpoint.dart';
 export 'package:palace/src/core/palace.dart';
 
 /// ? utils 🛠
-export 'package:palace/utils/yaml_parser.dart';
 export 'package:palace/utils/file_helper.dart';
 export 'package:palace/utils/logger.dart';
 

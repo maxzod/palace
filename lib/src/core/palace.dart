@@ -28,7 +28,8 @@ class Palace {
   set notFoundHandler(Handler h) => _notFoundHandler = h;
 
   /// get the not found handler id none was assigned it will return the defaults 404 handler;
-  Handler get notFoundHandler => _notFoundHandler ?? (Request req, Response res) => res.notFound();
+  Handler get notFoundHandler =>
+      _notFoundHandler ?? (Request req, Response res) => res.notFound();
 
   /// the server instance
   HttpServer? _server;
@@ -141,7 +142,8 @@ class Palace {
             if (e.method.toUpperCase() == 'ALL') {
               return e.path == element.path;
             } else {
-              return e.path == element.path && e.method.toUpperCase() == element.method.toUpperCase();
+              return e.path == element.path &&
+                  e.method.toUpperCase() == element.method.toUpperCase();
             }
           }).length >
           1) {
@@ -182,7 +184,11 @@ class Palace {
     /// * wait for incoming requests
     try {
       /// * look for desired endpoint
-      final endpoint = match(ioReq.method, ioReq.uri.path) ?? EndPoint(path: ioReq.uri.path, method: ioReq.method, handler: notFoundHandler);
+      final endpoint = match(ioReq.method, ioReq.uri.path) ??
+          EndPoint(
+              path: ioReq.uri.path,
+              method: ioReq.method,
+              handler: notFoundHandler);
 
       /// * create Place req form dart io req and the desired endpoint;
       final req = await Request.init(ioReq, endpoint);
@@ -197,7 +203,9 @@ class Palace {
         if (i == _reqGuards.length) {
           queue.add(() => endpoint.handler(req, res));
         } else {
-          queue.add(() => chiefHandler(req, res, _reqGuards[i].call, queue[i + 1]).onError((error, stackTrace) => throw error!));
+          queue.add(() =>
+              chiefHandler(req, res, _reqGuards[i].call, queue[i + 1])
+                  .onError((error, stackTrace) => throw error!));
         }
       }
       // for (var i = 0; i <= _reqGuards.length; i++) {

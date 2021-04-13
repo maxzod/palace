@@ -50,15 +50,19 @@ dynamic _getParam(
     /// if the parameter is not decorated and is not Request or response
     ///  then extract the value based on the decoration
   } else if (param.metadata.isNotEmpty) {
-    final deco = param.metadata.firstWhere((e) => e.reflectee is PalaceParamDecorator);
+    final deco =
+        param.metadata.firstWhere((e) => e.reflectee is PalaceParamDecorator);
     if (deco.reflectee is Body) {
-      return _getDecoratorValue(deco.reflectee, req.body, param.type.reflectedType);
+      return _getDecoratorValue(
+          deco.reflectee, req.body, param.type.reflectedType);
     } else if (deco.reflectee is Next) {
       return _buildNext(next);
     } else if (deco is Query) {
-      return _getDecoratorValue(deco.reflectee, req.queryParams, param.type.reflectedType);
+      return _getDecoratorValue(
+          deco.reflectee, req.queryParams, param.type.reflectedType);
     } else if (deco is Param) {
-      return _getDecoratorValue(deco.reflectee, req.params, param.type.reflectedType);
+      return _getDecoratorValue(
+          deco.reflectee, req.params, param.type.reflectedType);
     } else {
       throw '''
       [palace] you have extra param  with unknown type or decorator ${MirrorSystem.getName(deco.type.simpleName)} remove it or decorate it

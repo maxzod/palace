@@ -38,12 +38,14 @@ class Collector {
     final _controllerReflection = reflect(controller);
 
     /// extract methods
-    final _endpointsHandlers = _extractHttpMethodsFromController(_controllerReflection);
+    final _endpointsHandlers =
+        _extractHttpMethodsFromController(_controllerReflection);
 
     /// for each http method decorator set up new endpoint
     _endpointsHandlers.forEach((key, value) {
       /// extract endpoint http methods
-      final _endPointMethods = value.metadata.where((v) => v.reflectee is HttpMethodDecorator);
+      final _endPointMethods =
+          value.metadata.where((v) => v.reflectee is HttpMethodDecorator);
 
       /// extract endpoint guards
       final _endPointGuards = _extractEndpointGuards(value);
@@ -54,7 +56,8 @@ class Collector {
       /// no need to check for duplicate since openGates(); do it any way
       for (final _httpMethodMirror in _endPointMethods) {
         /// the method decorator instance
-        final _methodDecorator = _httpMethodMirror.reflectee as HttpMethodDecorator;
+        final _methodDecorator =
+            _httpMethodMirror.reflectee as HttpMethodDecorator;
 
         /// the http method name might be 'GET' or 'PUT' or 'post' and so on
         final _method = _methodDecorator.method;
@@ -62,7 +65,8 @@ class Collector {
         /// the endpoint path
         /// the condition to fix common miss understanding
         final _path = _methodDecorator.path == '/' ? '' : _methodDecorator.path;
-        final _functionMirror = _controllerReflection.getField(value.simpleName);
+        final _functionMirror =
+            _controllerReflection.getField(value.simpleName);
         _validateHandler(
           _functionMirror.getField(#call).type as FunctionTypeMirror,
           MirrorSystem.getName(_controllerReflection.type.simpleName),
@@ -75,7 +79,8 @@ class Collector {
         palace.register(
           /// append the endpoint path to the controller path
           path: '${controller.path + (_path.isEmpty ? '' : _path)}',
-          handler: (req, res) => chiefHandler(req, res, _handler, null).onError((e, st) => throw e!),
+          handler: (req, res) => chiefHandler(req, res, _handler, null)
+              .onError((e, st) => throw e!),
           method: _method,
           guards: _guards,
         );
@@ -87,7 +92,8 @@ class Collector {
   /// ? throw error if the controller is not valid
   /// ! controllers only allowed to contain functions that are decorated with HttpMethodDecorator
 
-  Map<Symbol, MethodMirror> _extractHttpMethodsFromController(InstanceMirror controllerReflection) {
+  Map<Symbol, MethodMirror> _extractHttpMethodsFromController(
+      InstanceMirror controllerReflection) {
     /// to group the http methods
     final methods = <Symbol, MethodMirror>{};
 
@@ -123,7 +129,8 @@ class Collector {
   /// extract the guards from the decorator
   List<Function> _extractEndpointGuards(MethodMirror methodMirror) {
     final _guards = <Function>[];
-    for (final meta in methodMirror.metadata.where((d) => d.reflectee is UseGuard || d.reflectee is UseGuards)) {
+    for (final meta in methodMirror.metadata
+        .where((d) => d.reflectee is UseGuard || d.reflectee is UseGuards)) {
       if (meta.reflectee is UseGuard) {
         _guards.add((meta.reflectee as UseGuard).guard.call);
       } else if (meta.reflectee is UseGuards) {

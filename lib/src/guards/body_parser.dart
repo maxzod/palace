@@ -23,7 +23,8 @@ class BodyParser {
         req.body = {};
       } else if (_contentType == 'application/json') {
         req.body = jsonDecode(body);
-      } else if (_contentType == 'multipart/form-data' || _contentType == 'application/x-www-form-urlencoded') {
+      } else if (_contentType == 'multipart/form-data' ||
+          _contentType == 'application/x-www-form-urlencoded') {
         var queryParams = Uri.splitQueryString(body);
         req.body = queryParams;
       }
