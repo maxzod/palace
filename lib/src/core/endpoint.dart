@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:palace/palace.dart';
 
-typedef Handler = FutureOr<void> Function(Request req, Response res);
-// typedef GuardArgs = FutureOr<void> Function(Request req, Response res, @Next() Function next);
+typedef HandlerFunc = FutureOr<Object?> Function(Request req, Response res);
+typedef GuardFunc = FutureOr<Object?> Function(Request req, Response res, Function() next);
 
 /// every `request` must have a `endpoint` ready to handle it
 /// else the `palace` will respond with `res.notFoundHandler()` `404`
@@ -13,8 +13,8 @@ typedef Handler = FutureOr<void> Function(Request req, Response res);
 class EndPoint {
   final String path;
   final String method;
-  final Handler handler;
-  final List<Function> guards;
+  final HandlerFunc handler;
+  final List<GuardFunc> guards;
 
   const EndPoint({
     required this.path,

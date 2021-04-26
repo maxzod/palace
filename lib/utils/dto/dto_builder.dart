@@ -1,6 +1,7 @@
 import 'dart:mirrors';
 
 import 'package:palace/palace.dart';
+import 'package:palace/src/http/responses/bad_request.dart';
 import 'package:palace_validators/palace_validators.dart';
 
 Object initDto(Object dto, dynamic body) {
@@ -21,19 +22,15 @@ Object initDto(Object dto, dynamic body) {
       var value = body[fieldName];
 
       /// convert a string to bool when is could bee and the variable type is also bool
-      if (value.runtimeType != field.type.reflectedType &&
-          field.type.reflectedType == bool &&
-          isBoolean(value)) {
+      if (value.runtimeType != field.type.reflectedType && field.type.reflectedType == bool && isBoolean(value)) {
         value = _convertToBool(value);
 
         ///same fo double
-      } else if (value.runtimeType != field.type.reflectedType &&
-          field.type.reflectedType == double) {
+      } else if (value.runtimeType != field.type.reflectedType && field.type.reflectedType == double) {
         value = _convertToDouble(value);
 
         /// same for int
-      } else if (value.runtimeType != field.type.reflectedType &&
-          field.type.reflectedType == int) {
+      } else if (value.runtimeType != field.type.reflectedType && field.type.reflectedType == int) {
         value = _convertToInt(value);
       }
 
@@ -46,7 +43,7 @@ Object initDto(Object dto, dynamic body) {
       final rightType = field.type.reflectedType;
 
       /// will be caught by the main pipe inside the router class
-      throw BadRequest(data: ['$fieldName must be $rightType']);
+      throw BadRequest(['$fieldName must be $rightType']);
     }
   }
   return dtoMirror.reflectee;
@@ -67,7 +64,7 @@ T buildDto<T>(dynamic body) {
     rethrow;
   } catch (e) {
     print(e);
-    throw BadRequest(data: ['body is not acceptable try to change the format']);
+    throw BadRequest(['body is not acceptable try to change the format']);
   }
 }
 
@@ -76,8 +73,7 @@ String _extractSymbolName(Symbol symbol) => MirrorSystem.getName(symbol);
 
 /// the input might be `"true"` as boolean but becomes string when converting it to body of http request
 /// so we need it back to beck Type of boolean
-bool _convertToBool(String value) =>
-    value == 'true' || value == 'True' || value == '1' || value == '1.0';
+bool _convertToBool(String value) => value == 'true' || value == 'True' || value == '1' || value == '1.0';
 
 /// the input might be `"1.5"` as rightful double but the process of http request convert it to string
 /// so we need to convert it back to double

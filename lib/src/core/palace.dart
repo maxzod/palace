@@ -1,9 +1,9 @@
+import 'package:palace/config.dart';
 import 'package:palace/palace.dart';
-import 'package:palace/src/core/chief_handler.dart';
-import 'package:palace/src/exceptions/imp_exception.dart';
 import 'package:palace/src/guards/body_parser.dart';
-import 'package:palace/src/core/collector.dart';
-import 'package:palace/src/types.dart';
+import 'package:palace/src/http/responses/internal_server_error.dart';
+import 'package:palace/src/imp/palace_response.dart';
+import 'package:palace/src/http/file.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -16,26 +16,16 @@ class Palace {
 
   /// contains the registered guards [globally] from the `use` method
   /// `router.use`
-  final List<Function> _globalGuards = [
+  final List<GuardFunc> _globalGuards = [
     /// body parser is on by default
     BodyParser(),
   ];
-
-  /// will be called in case of no match with any of the registered endpoints
-  Handler? _notFoundHandler;
-
-  /// set not found the handler
-  set notFoundHandler(Handler h) => _notFoundHandler = h;
-
-  /// get the not found handler id none was assigned it will return the defaults 404 handler;
-  Handler get notFoundHandler =>
-      _notFoundHandler ?? (Request req, Response res) => res.notFound();
 
   /// the server instance
   HttpServer? _server;
 
   /// assign `Guard` to work globally `on any request with any method`
-  void use(Function guard) => _globalGuards.add(guard);
+  void use(GuardFunc guard) => _globalGuards.add(guard);
 
   EndPoint? match(String method, String path) {
     // TODO(2) :: find a Better way this will perform badly when many routers exist 'BigO'
@@ -46,16 +36,11 @@ class Palace {
     }
   }
 
-  void controllers(List<PalaceController> controllers) {
-    final collector = Collector(controllers, this);
-    collector.collect();
-  }
-
   void register({
-    required Handler handler,
+    required HandlerFunc handler,
     required String path,
     required String method,
-    required List<Function> guards,
+    required List<GuardFunc> guards,
   }) {
     _endpoints.add(EndPoint(
       path: path,
@@ -67,8 +52,8 @@ class Palace {
 
   void all(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) {
     _endpoints.add(EndPoint(
       path: path,
@@ -80,8 +65,8 @@ class Palace {
 
   void get(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -92,8 +77,8 @@ class Palace {
 
   void post(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -104,8 +89,8 @@ class Palace {
 
   void put(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -115,8 +100,8 @@ class Palace {
       ));
   void patch(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -126,8 +111,8 @@ class Palace {
       ));
   void delete(
     String path,
-    Handler handler, {
-    List<Function> guards = const [],
+    HandlerFunc handler, {
+    List<GuardFunc> guards = const [],
   }) =>
       _endpoints.add(EndPoint(
         path: path,
@@ -142,8 +127,7 @@ class Palace {
             if (e.method.toUpperCase() == 'ALL') {
               return e.path == element.path;
             } else {
-              return e.path == element.path &&
-                  e.method.toUpperCase() == element.method.toUpperCase();
+              return e.path == element.path && e.method.toUpperCase() == element.method.toUpperCase();
             }
           }).length >
           1) {
@@ -155,18 +139,12 @@ class Palace {
   Future<void> openGates({
     int port = 3000,
     String? ip,
-    bool enableLogs = true,
   }) async {
     _bootstrap();
     // await PalaceDB.init();
     ip ??= InternetAddress.anyIPv4.address;
-    if (enableLogs) {
-      final tempGuards = [..._globalGuards];
-      _globalGuards.clear();
-      _globalGuards.addAll([
-        // LogsGuard(),
-        ...tempGuards,
-      ]);
+    if (PalaceConfig.enaleLogs) {
+      _globalGuards.insert(0, LogsGuard());
     }
     await _server?.close(force: true);
 
@@ -186,9 +164,10 @@ class Palace {
       /// * look for desired endpoint
       final endpoint = match(ioReq.method, ioReq.uri.path) ??
           EndPoint(
-              path: ioReq.uri.path,
-              method: ioReq.method,
-              handler: notFoundHandler);
+            path: ioReq.uri.path,
+            method: ioReq.method,
+            handler: PalaceConfig.notFoundHandler,
+          );
 
       /// * create Place req form dart io req and the desired endpoint;
       final req = await Request.init(ioReq, endpoint);
@@ -196,36 +175,41 @@ class Palace {
 
       /// build list of guards
 
-      final _reqGuards = [..._globalGuards, ...endpoint.guards];
-      final queue = <Function>[];
+      final _reqGuards = <GuardFunc>[..._globalGuards, ...endpoint.guards];
+      final queue = [];
+      // Future<void> handelCall(Function func) async{
+      //   await
 
+      // }
       for (var i = 0; i <= _reqGuards.length; i++) {
         if (i == _reqGuards.length) {
           queue.add(() => endpoint.handler(req, res));
         } else {
-          queue.add(() =>
-              chiefHandler(req, res, _reqGuards[i].call, queue[i + 1])
-                  .onError((error, stackTrace) => throw error!));
+          queue.add(() => _reqGuards[i](req, res, queue[i + 1]));
         }
       }
-      // for (var i = 0; i <= _reqGuards.length; i++) {
-      //   if (i == _reqGuards.length) {
-      //     queue.add(() => chiefHandler(req, res, endpoint.handler, null).onError((error, stackTrace) => throw error!));
-      //   } else {
-      //     queue.add(() => chiefHandler(req, res, _reqGuards[i].handle, queue[i + 1]).onError((error, stackTrace) => throw error!));
-      //   }
-      // }
 
-      await queue.first();
-    } on PalaceException catch (e) {
-      await Response(ioReq).json(e.toMap(), statusCode: e.statusCode);
+      await _handleResponse(req, res, await queue.first());
+    } on PalaceResponse catch (e) {
+      Response(ioReq).json(e.toMap(), statusCode: e.statusCode);
     } catch (e, st) {
-      print(e);
-      Logger.c(e, st: st);
-      await Response(ioReq).internalServerError(exception: e);
+      await Logger.e(e, st: st);
+      Response(ioReq).json(InternalServerError(e).toMap());
     } finally {
       ///  Close the req
       await ioReq.response.close();
+    }
+  }
+
+  Future<void> _handleResponse(Request req, Response res, dynamic data) async {
+    if (data is String) {
+      res.send(data);
+    } else if (data is Map) {
+      res.json(data);
+    } else if (data is PalaceResponse) {
+      res.json(data.toMap(), statusCode: data.statusCode);
+    } else if (data is File) {
+      await file(req.request, res.response, data);
     }
   }
 

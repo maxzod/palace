@@ -12,7 +12,7 @@ Object validateDto(Object dto) {
 
   /// in case of any failure throw exception
   if (errs.isNotEmpty) {
-    throw BadRequest(data: errs);
+    throw BadRequest(errs);
   }
 
   /// else every thing is fine return the dto

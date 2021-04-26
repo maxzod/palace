@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' hide Response;
+import 'package:palace/config.dart';
 import 'package:palace/palace.dart';
 import 'package:test/test.dart';
 
@@ -18,7 +19,7 @@ void main() {
     await router.closeGates();
   });
   test('custom not found', () async {
-    router.notFoundHandler = (req, res) => res.notFound(data: 'custom not found handler msg');
+    PalaceConfig.notFoundHandler = (req, res) => throw NotFound('custom not found handler msg');
     final res = await _dio.get('/some_unknown_place');
     expect(res.statusCode, HttpStatus.notFound);
     expect(res.data, equals({'status_code': 404, 'message': 'Not found', 'data': 'custom not found handler msg'}));

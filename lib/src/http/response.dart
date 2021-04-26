@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:palace/utils/json_encoder.dart';
 
@@ -58,5 +59,19 @@ class Response {
       return io.HttpStatus.created;
     }
     return io.HttpStatus.badRequest;
+  }
+
+  void json(
+    Object data, {
+    int? statusCode,
+  }) async {
+    /// set the Response contentType to Json
+    response.headers.contentType = ContentType.json;
+
+    // / set the default status code
+    response.statusCode = statusCode ?? defStatusCode;
+
+    /// append the data to the response
+    send(toJson(data));
   }
 }

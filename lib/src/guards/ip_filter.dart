@@ -7,9 +7,7 @@
 //     if (whitelist!.contains(req.ip)) {
 //       return await next();
 //     } else {
-//       return await res.json(
-//           {'address': req.ip, 'message': "You're not whitelisted"},
-//           statusCode: HttpStatus.unauthorized);
+//       return await res.json({'address': req.ip, 'message': "You're not whitelisted"}, statusCode: HttpStatus.unauthorized);
 //     }
 //   }
 // }
@@ -18,9 +16,7 @@
 //   void call(Request req, Response res, Function next) async {
 //     var blacklist = await addressBlacklist;
 //     if (blacklist!.contains(req.ip)) {
-//       return await res.json(
-//           {'address': req.ip, 'message': 'Your IP is banned and blacklisted'},
-//           statusCode: HttpStatus.unauthorized);
+//       return await res.json({'address': req.ip, 'message': 'Your IP is banned and blacklisted'}, statusCode: HttpStatus.unauthorized);
 //     } else {
 //       return await next();
 //     }
