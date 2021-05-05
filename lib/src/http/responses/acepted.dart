@@ -1,12 +1,12 @@
 import 'package:palace/src/imp/palace_response.dart';
 
-class Created extends PalaceResponse {
-  Created([Object? data])
+class Accepted extends PalaceResponse {
+  Accepted([Object? data])
       : super(
-          statusCode: HttpStatus.created,
+          statusCode: HttpStatus.accepted,
           data: data,
         );
 
   @override
-  String get message => 'Created';
+  String get message => 'Accepted';
 }
