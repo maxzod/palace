@@ -4,12 +4,17 @@ description: minimal server side dart micro-framework for building REST api easi
 homepage: https://github.com/maxzod/
 environment:
   sdk: ">=2.12.0 <3.0.0"
-
+# TODO :: remove this
+publish_to: "none"
 dependencies:
+  dotenv: ^3.0.0
   mime_type: ^1.0.0
   palace_validators: ^0.0.3
   path: ^1.8.0
   path_to_regexp: ^0.4.0
+  queen_env:
+    git:
+      url: https://github.com/maxzod/queen_env.git
 
 dev_dependencies:
   dio: ^4.0.0

@@ -21,7 +21,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.1"
   async:
     dependency: transitive
     description:
@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  dotenv:
+    dependency: "direct main"
+    description:
+      name: dotenv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   email_validator:
     dependency: transitive
     description:
@@ -225,6 +232,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  queen_env:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "8726cf68a9ee8f8c2da21d7120a820d010e7498d"
+      url: "https://github.com/maxzod/queen_env.git"
+    source: git
+    version: "0.0.1-beta"
   queen_validators:
     dependency: transitive
     description:

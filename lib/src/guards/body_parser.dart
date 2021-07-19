@@ -4,7 +4,7 @@ import 'package:palace/palace.dart';
 import 'dart:convert';
 
 /// will parse the incoming request so if `json` `req.body` type will be `Map` and so on
-// TODO(2) :: parse files
+// TODO :: parse files
 
 final supportedContentTypes = [
   'application/x-www-form-urlencoded',
@@ -14,22 +14,30 @@ final supportedContentTypes = [
 
 class BodyParser {
   FutureOr<Object?> call(Request req, Response res, Function next) async {
-    final _contentType = req.request.headers.contentType.toString();
-
-    if (supportedContentTypes.contains(_contentType)) {
-      var body = await req.request.transform(utf8.decoder.cast()).join();
-      if (body.isEmpty) {
-        req.body = {};
-      } else if (_contentType == 'application/json') {
-        req.body = jsonDecode(body);
-      } else if (_contentType == 'multipart/form-data' || _contentType == 'application/x-www-form-urlencoded') {
-        var queryParams = Uri.splitQueryString(body);
-        req.body = queryParams;
-      }
+    var body = await req.request.transform(utf8.decoder.cast()).join();
+    // return req.contentType;
+    if (req.contentType == 'application/x-www-form-urlencoded') {
+      req.body = Uri.splitQueryString(body);
+    } else if (req.contentType.contains('multipart/form-data')) {
+      // return body;
+      // req.body = parseFormData(body);
+      // TODO :: parse form-data
+      req.body = {};
+    } else if (req.contentType == 'application/json') {
+      req.body = jsonDecode(body);
     } else {
       req.body = {};
     }
-    // return res.send(next);
+    return req.body;
+
     return await next();
   }
+}
+
+Map<String, dynamic> parseFormData(String body) {
+  final reqBody = <String, dynamic>{};
+
+  return {
+    'foo': body,
+  };
 }

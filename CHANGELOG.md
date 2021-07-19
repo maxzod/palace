@@ -1,7 +1,8 @@
 ## 0.0.2
 
 - remove mirrors
--
+- support .env files (queen_env)
+- add req.contentType
 
 ## 0.0.1+3
 

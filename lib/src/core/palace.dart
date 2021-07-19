@@ -8,143 +8,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:palace/utils/logger.dart';
+import 'package:queen_env/queen_env.dart';
 
-class Palace {
-  /// contains the registered end points form any methods like
-  /// `palace.get` or `palace.post` and so on
-  /// will be added here
-  final _endpoints = <EndPoint>[];
+part 'palace_mixins/methods.dart';
+part 'palace_mixins/guards.dart';
 
-  /// contains the registered guards [globally] from the `use` method
-  /// `palace.use`
-  final List<GuardFunc> _globalGuards = [
-    /// if logs enabled the logsGuard will be the first one
-    if (PalaceConfig.enaleLogs) LogsGuard(),
-
-    /// body parser is on by default
-    BodyParser(),
-  ];
-
+class Palace with HttpMethodsMixin, PalaceGuardsMixin {
   /// the server instance
   HttpServer? _server;
-
-  /// assign `Guard` to work globally `on any request with any method`
-  void use(GuardFunc guard) => _globalGuards.add(guard);
-
-  EndPoint? findMatch(String method, String path) {
-    // TODO :: find a Better way this will perform badly when many routers exist 'BigO'
-    try {
-      return _endpoints.firstWhere((e) => e.match(method, path));
-    } on StateError {
-      return null;
-    }
-  }
-
-  void register({
-    required HandlerFunc handler,
-    required String path,
-    required String method,
-    required List<GuardFunc> guards,
-  }) {
-    /// TODO :: validate if the provided method is supported
-    _endpoints.add(
-      EndPoint(
-        path: path,
-        method: method,
-        handler: handler,
-        guards: guards,
-      ),
-    );
-  }
-
-  /// * register the path to work with any type of methods
-  void all(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) {
-    _endpoints.add(
-      EndPoint(
-        path: path,
-        method: '*',
-        handler: handler,
-        guards: guards,
-      ),
-    );
-  }
-
-  /// * register the path to work with `GET` methods
-  void get(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) =>
-      _endpoints.add(
-        EndPoint(
-          path: path,
-          method: 'GET',
-          handler: handler,
-          guards: guards,
-        ),
-      );
-
-  /// * register the path to work with `POST` methods
-  void post(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) =>
-      _endpoints.add(
-        EndPoint(
-          path: path,
-          method: 'POST',
-          handler: handler,
-          guards: guards,
-        ),
-      );
-
-  /// * register the path to work with `GET` methods
-  void put(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) =>
-      _endpoints.add(
-        EndPoint(
-          path: path,
-          method: 'PUT',
-          handler: handler,
-          guards: guards,
-        ),
-      );
-
-  /// * register the path to work with `PATCH` methods
-  void patch(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) =>
-      _endpoints.add(
-        EndPoint(
-          path: path,
-          method: 'PATCH',
-          handler: handler,
-          guards: guards,
-        ),
-      );
-
-  /// * register the path to work with `DELETE` methods
-  void delete(
-    String path,
-    HandlerFunc handler, {
-    List<GuardFunc> guards = const [],
-  }) =>
-      _endpoints.add(EndPoint(
-        path: path,
-        method: 'DELETE',
-        handler: handler,
-        guards: guards,
-      ));
 
   /// * register the path to work with `GET` methods
   void _bootstrap() {
@@ -168,6 +39,20 @@ class Palace {
     int port = 3000,
     String? ip,
   }) async {
+    /// load .env file
+    await loadEnv();
+
+    /// add global palace guards
+    _globalGuards.addAll(
+      [
+        /// if logs enabled the logsGuard will be the first one
+        if (PalaceConfig.enaleLogs) LogsGuard(),
+
+        /// body parser is on by default
+        BodyParser(),
+      ],
+    );
+
     /// checks for endpoints dublicate
     _bootstrap();
 
