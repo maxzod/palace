@@ -32,7 +32,10 @@
 //       equals({
 //         'status_code': 400,
 //         'message': 'Bad Request',
-//         'data': ['email is not valid email address', 'password min length is 6']
+//         'data': [
+//           'email is not valid email address',
+//           'password min length is 6',
+//         ]
 //       }),
 //     );
 //   });

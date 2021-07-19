@@ -1,3 +1,8 @@
+## 0.0.2
+
+- remove mirrors
+-
+
 ## 0.0.1+3
 
 - no more `palace.use(BodyParser());` its now powered by `palace_body_parser` out of the box 🎁
