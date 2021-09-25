@@ -1,30 +1,30 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:dio/dio.dart' hide Response;
-import 'package:palace/palace.dart';
-import 'package:test/test.dart';
+// import 'package:dio/dio.dart' hide Response;
+// import 'package:palace/palace.dart';
+// import 'package:test/test.dart';
 
-void main() {
-  late Palace router;
+// void main() {
+//   late Palace router;
 
-  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:3000', followRedirects: true, validateStatus: (_) => true));
+//   final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:3000', followRedirects: true, validateStatus: (_) => true));
 
-  setUp(() async {
-    router = Palace();
-    await router.openGates();
-  });
-  tearDown(() async {
-    await router.closeGates();
-  });
-  test('one guard', () async {
-    router.get('/', (req, res) {
-      res.send('ahmed');
-      print(req.body);
-    }, guards: []);
+//   setUp(() async {
+//     router = Palace();
+//     await router.openGates();
+//   });
+//   tearDown(() async {
+//     await router.closeGates();
+//   });
+//   test('one guard', () async {
+//     router.get('/', (req, res) {
+//       res.send('ahmed');
+//       print(req.body);
+//     }, guards: []);
 
-    final response = await _dio.get('/');
-    print(response.data);
-    expect(response.statusCode, HttpStatus.ok);
-    expect(response.data.toString(), equals('ahmed'));
-  });
-}
+//     final response = await _dio.get('/');
+//     print(response.data);
+//     expect(response.statusCode, HttpStatus.ok);
+//     expect(response.data.toString(), equals('ahmed'));
+//   });
+// }

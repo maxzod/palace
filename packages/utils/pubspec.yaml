@@ -1,0 +1,15 @@
+name: utils
+version: 0.0.1
+description: minimal server side dart micro-framework for building REST api easily
+homepage: https://github.com/maxzod/palace
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+publish_to: "none"
+dependencies:
+  path_to_regexp: ^0.4.0
+  palace_core:
+    git: git@github.com:maxzod/palace_core.git
+dev_dependencies:
+  dio: ^4.0.0
+  pedantic: ^1.11.0
+  test: ^1.16.8

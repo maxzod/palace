@@ -1,0 +1,18 @@
+name: palace_body_parser
+description: A starting point for Dart libraries or applications.
+version: 0.0.1
+homepage: https://github.com/maxzod
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  # * to extract the mime type
+  mime: ^1.0.0
+  palace:
+
+dev_dependencies:
+  # *  http client for testing
+  dio: ^4.0.0
+  lints: ^1.0.1
+  test: ^1.17.10

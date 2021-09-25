@@ -12,6 +12,7 @@ dependencies:
   palace_validators: ^0.0.3
   path: ^1.8.0
   path_to_regexp: ^0.4.0
+
   queen_env:
     git:
       url: https://github.com/maxzod/queen_env.git
